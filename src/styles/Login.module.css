@@ -1,0 +1,95 @@
+/* styles/Login.module.css */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #ff6d00;
+  font-family: 'Montserrat', sans-serif; /* Aplicamos Montserrat aquí */
+}
+
+.loginBox {
+  background-color: #ff9e3d;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+}
+
+.heading {
+  color: #fff;
+  font-size: 45px;
+  font-weight: 700; /* Montserrat con grosor 700 */
+  margin-bottom: 20px;
+}
+
+.inputBox {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.inputBox input {
+  width: 100%;
+  padding: 10px 40px;
+  border: none;
+  border-radius: 20px;
+  background-color: #d3d3d3;
+  font-size: 16px;
+  font-family: 'Montserrat', sans-serif; /* Aplicamos Montserrat */
+}
+
+.iconUser,
+.iconLock {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  font-size: 18px;
+}
+
+.iconUser::before {
+  content: '👤';
+}
+
+.iconLock::before {
+  content: '🔒';
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.options label {
+  font-size: 14px;
+  color: #000;
+  font-family: 'Montserrat', sans-serif; /* Aplicamos Montserrat */
+}
+
+.options a {
+  font-size: 14px;
+  color: #000;
+  text-decoration: none;
+  font-family: 'Montserrat', sans-serif; /* Aplicamos Montserrat */
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 10px;
+  background-color: #d3d3d3;
+  color: #000;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  font-family: 'Montserrat', sans-serif; /* Aplicamos Montserrat */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submitBtn:hover {
+  background-color: #ccc;
+}
