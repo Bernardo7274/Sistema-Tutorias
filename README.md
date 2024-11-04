@@ -1,40 +1,121 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Librerias a instalar
 
-## Getting Started
+1.- npm install mysql2
 
-First, run the development server:
+2.- npm install sweetalert2
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Base de datos
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 04-11-2024 a las 19:00:26
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+--
+-- Base de datos: `prueba`
+--
 
-## Learn More
+-- --------------------------------------------------------
 
-To learn more about Next.js, take a look at the following resources:
+--
+-- Estructura de tabla para la tabla `inicio_de_sesion`
+--
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+CREATE TABLE `inicio_de_sesion` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `correo` varchar(100) NOT NULL,
+  `contraseña` varchar(255) NOT NULL,
+  `rol_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+--
+-- Volcado de datos para la tabla `inicio_de_sesion`
+--
 
-## Deploy on Vercel
+INSERT INTO `inicio_de_sesion` (`id`, `nombre`, `correo`, `contraseña`, `rol_id`) VALUES
+(1, 'Bernardo', '202100140@upqroo.edu.mx', '123456_2023', 3),
+(21, 'Jesus', 'jesus@gmail.com', 'J3sus$', 1),
+(22, 'Brayan', 'brayan@gmail.com', 'Br2yan$', 2);
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+-- --------------------------------------------------------
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+--
+-- Estructura de tabla para la tabla `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `roles`
+--
+
+INSERT INTO `roles` (`id`, `nombre`) VALUES
+(1, 'Estudiante'),
+(2, 'Tutor'),
+(3, 'Administrador');
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `inicio_de_sesion`
+--
+ALTER TABLE `inicio_de_sesion`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `rol_id` (`rol_id`);
+
+--
+-- Indices de la tabla `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `inicio_de_sesion`
+--
+ALTER TABLE `inicio_de_sesion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT de la tabla `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `inicio_de_sesion`
+--
+ALTER TABLE `inicio_de_sesion`
+  ADD CONSTRAINT `inicio_de_sesion_ibfk_1` FOREIGN KEY (`rol_id`) REFERENCES `roles` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
