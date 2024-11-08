@@ -23,17 +23,11 @@ export default function Usuarios() {
           style={logo}
         />
         <nav style={nav}>
-          <button
-            style={navButton}
-            onClick={() => handleRedirect("/inicio")}
-          >
+          <button style={navButton} onClick={() => handleRedirect("/inicio")}>
             <img src="/icon_inicio.png" alt="Inicio" style={navIcon} />
             <span style={navText}>Inicio</span>
           </button>
-          <button
-            style={navButton}
-            onClick={() => handleRedirect("/inicio")}
-          >
+          <button style={navButton} onClick={() => handleRedirect("/inicio")}>
             <img src="/icon_inicio.png" alt="Inicio" style={navIcon} />
             <span style={navText}>Inicio</span>
           </button>
@@ -164,7 +158,10 @@ function UserTable() {
         <input id="edit-correo" class="swal2-input" style="width: 350px;" placeholder="Correo" value="${
           usuario.correo
         }">
-        <input id="edit-contraseña" type="password" class="swal2-input" style="width: 350px;" placeholder="Contraseña">
+        <div style="position: relative;">
+          <input id="edit-contraseña" type="password" class="swal2-input" style="width: 350px;" placeholder="Contraseña">
+          <i id="help-icon" class="fa fa-question-circle" style="position: absolute; right: 10px; top: 15px; cursor: pointer;"></i>
+        </div>
         <select id="edit-rol" class="swal2-input" style="width: 350px;">
           <option value="1" ${
             usuario.rol_id === 1 ? "selected" : ""
@@ -180,6 +177,16 @@ function UserTable() {
       showCancelButton: true,
       confirmButtonText: "Guardar",
       cancelButtonText: "Cancelar",
+      didOpen: () => {
+        // Mostrar mensaje al hacer clic en el ícono de ayuda
+        document.getElementById("help-icon").addEventListener("click", () => {
+          Swal.fire(
+            "Información de Contraseña",
+            "Si no proporcionas una contraseña nueva, se mantendrá la actual.",
+            "info"
+          );
+        });
+      },
       preConfirm: () => {
         const nombre = document.getElementById("edit-nombre").value;
         const correo = document.getElementById("edit-correo").value;
@@ -193,7 +200,7 @@ function UserTable() {
           return false;
         }
 
-        // Validación de contraseña
+        // Validación de contraseña si se proporciona
         const contraseñaRegex =
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,8}$/;
         if (contraseña && !contraseñaRegex.test(contraseña)) {
@@ -203,7 +210,14 @@ function UserTable() {
           return false;
         }
 
-        return { id: usuario.id, nombre, correo, contraseña, rol_id };
+        // Solo devolver la contraseña si se proporcionó
+        return {
+          id: usuario.id,
+          nombre,
+          correo,
+          contraseña: contraseña || null,
+          rol_id,
+        };
       },
     }).then(async (result) => {
       if (result.isConfirmed) {

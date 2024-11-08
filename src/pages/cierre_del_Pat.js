@@ -1,18 +1,70 @@
 import { useRouter } from "next/router";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import Swal from "sweetalert2";
 
-export default function RegistroCanalizacion() {
+export default function CierreDelPat() {
   const router = useRouter();
-  const mainRef = useRef(); // Referencia para el contenido de main
+  const mainRef = useRef();
 
-  // Función para redirigir a otras páginas
+  // Estados solo para los textarea
+  const [accionesMes1, setAccionesMes1] = useState("");
+  const [accionesMes2, setAccionesMes2] = useState("");
+  const [accionesMes3, setAccionesMes3] = useState("");
+  const [accionesMes4, setAccionesMes4] = useState("");
+
+  // Definir el estado para las evidencias de la acción tutorial
+  const [evidenciasAccionTutorial, setEvidenciasAccionTutorial] = useState("");
+
+  // Manejador de cambio para actualizar el estado
+  const handleEvidenciasChange = (event) => {
+    setEvidenciasAccionTutorial(event.target.value);
+  };
+
   const handleRedirect = (path) => {
     router.push(path);
   };
 
-  // Función para imprimir el contenido de main, incluyendo valores de formulario
+  const data = [
+    "Acciones realizadas en la tutoria grupal",
+    "Estudiantes con entrevista inicial (Sólo 1ercuatrimestre)",
+    "Estudiantes atendidos en tutoría individual",
+    "Estudiantes identificados en riesgo académico",
+    "Estudiantes en riesgo académico atendidos en asesoría académica",
+    "Estudiantes que acreditaron como resultado de las asesorías académicas",
+    "Estudiantes que abandonaron el cuatrimestre",
+    "Estudiantes que solicitaron baja académica",
+  ];
+
+  const infoData = {
+    "Acciones realizadas en la tutoria grupal":
+      "Información detallada sobre depresión",
+    "Estudiantes con entrevista inicial (Sólo 1ercuatrimestre)":
+      "Descripción sobre problemas de autoestima",
+    "Estudiantes atendidos en tutoría individual":
+      "Detalles sobre ansiedad y angustia",
+    "Estudiantes identificados en riesgo académico":
+      "Información sobre comportamiento errático",
+    "Estudiantes en riesgo académico atendidos en asesoría académica":
+      "Descripción sobre problemas de integración",
+    "Estudiantes que acreditaron como resultado de las asesorías académicas":
+      "Información sobre necesidades educativas",
+    "Estudiantes que abandonaron el cuatrimestre":
+      "Detalles sobre falta de concentración",
+    "Estudiantes que solicitaron baja académica":
+      "Descripción sobre proceso de duelo",
+  };
+
+  const handleIconClick = (item) => {
+    const text = infoData[item] || "Información no disponible";
+    Swal.fire({
+      title: "Información",
+      text: text,
+      icon: "info",
+      confirmButtonText: "Cerrar",
+    });
+  };
+
   const handlePrint = () => {
-    // Obtener el contenido de los campos de formulario
     const inputs = mainRef.current.querySelectorAll("input, select");
     inputs.forEach((input) => {
       if (input.type === "checkbox") {
@@ -22,7 +74,6 @@ export default function RegistroCanalizacion() {
       }
     });
 
-    // Reemplazar los campos con sus valores para la impresión
     inputs.forEach((input) => {
       if (input.type === "checkbox") {
         input.insertAdjacentHTML(
@@ -35,7 +86,7 @@ export default function RegistroCanalizacion() {
           `<br/><span>${input.getAttribute("data-value")}</span>`
         );
       }
-      input.style.display = "none"; // Ocultar los elementos de entrada
+      input.style.display = "none";
     });
 
     const printContent = mainRef.current.innerHTML;
@@ -45,11 +96,7 @@ export default function RegistroCanalizacion() {
     window.print();
     document.body.innerHTML = originalContent;
 
-    // Restaurar los valores en el formulario y recargar
-    inputs.forEach((input) => {
-      input.style.display = ""; // Mostrar los elementos de entrada nuevamente
-    });
-    window.location.reload(); // Recarga para restablecer el contenido original
+    window.location.reload();
   };
 
   return (
@@ -87,21 +134,24 @@ export default function RegistroCanalizacion() {
 
       <main ref={mainRef} style={styles.main}>
         <div style={styles.titleContainer}>
-          <h1 style={styles.title}>REGISTRO DE CANALIZACIÓN</h1>
+          <h1 style={styles.title}>INFORME DEL CIERRE DEL PAT</h1>
         </div>
-        <p style={styles.instructions}>
-          <strong>
-            INSTRUCCIONES: Llene el formato con los datos solicitados en la
-            parte superior del mismo. Marque las posibles causas de la
-            canalización que considere puede(n) estar afectando el rendimiento
-            académico del/la estudiante. Envíe por correo electrónico el adjunto
-            a: bienestarestudiantil@upqroo.edu.mx para agendar cita con el/la
-            estudiante; una vez que ha sido atendido solicite el documento
-            firmado y archive en la carpeta de grupo.
-          </strong>
-        </p>
-        <div style={styles.sectionTitle}>Datos de contacto</div>
         <div style={styles.contactContainer}>
+          <label>
+            <strong>Tutor/a:</strong>
+            <input type="text" style={styles.input} />
+          </label>
+          <label>
+            <strong>Grupo:</strong>
+            <select style={styles.input}>
+              <option value="">Seleccione una opción</option>
+              <option value="29BV">29BV</option>
+              <option value="29AV">29AV</option>
+              <option value="27AM">27AM</option>
+              <option value="27AV">27AV</option>
+              <option value="Otra">Otra</option>
+            </select>
+          </label>
           <label>
             <strong>Programa Educativo:</strong>
             <select style={styles.input}>
@@ -122,126 +172,102 @@ export default function RegistroCanalizacion() {
             </select>
           </label>
           <label>
-            <strong>Nombre:</strong>
+            <strong>Periodo:</strong>
             <input type="text" style={styles.input} />
           </label>
           <label>
             <strong>Fecha:</strong>
             <input type="date" style={styles.input} />
           </label>
-          <label>
-            <strong>Matrícula:</strong>
-            <input type="text" style={styles.input} />
-          </label>
-          <label>
-            <strong>Correo:</strong>
-            <input type="email" style={styles.input} />
-          </label>
-          <label>
-            <strong>Tutor/a:</strong>
-            <input type="text" style={styles.input} />
-          </label>
-          <label>
-            <strong>Celular:</strong>
-            <input type="text" style={styles.input} />
-          </label>
-          <label>
-            <strong>Grupo:</strong>
-            <input type="text" style={styles.input} />
-          </label>
         </div>
-        <div style={styles.sectionTitle}>Causas de la Canalización</div>
+
+        {/* Textareas para acciones realizadas en el mes */}
+        {[accionesMes1, accionesMes2, accionesMes3, accionesMes4].map(
+          (acciones, index) => (
+            <div key={index} style={styles.canalizationContainer}>
+              <div style={styles.tableContainer}>
+                <div style={styles.tableTitle}>
+                  Acciones realizadas en el mes de..
+                </div>
+                <table style={styles.table}>
+                  <tbody>
+                    <tr>
+                      <td style={styles.cell}>
+                        <textarea
+                          style={styles.input1}
+                          placeholder={`1.`}
+                          value={acciones}
+                          onChange={(e) => {
+                            if (index === 0) setAccionesMes1(e.target.value);
+                            else if (index === 1)
+                              setAccionesMes2(e.target.value);
+                            else if (index === 2)
+                              setAccionesMes3(e.target.value);
+                            else setAccionesMes4(e.target.value);
+                          }}
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )
+        )}
         <div style={styles.canalizationContainer}>
           <div style={styles.tableContainer}>
-            <div style={styles.tableTitle}>
-              Observaciones del/a Tutor/a
-              <br />
-              Marque una o más opciones de canalización según considere.
-            </div>
             <table style={styles.table}>
               <tbody>
-                {[
-                  "Presenta síntomas relacionados con depresión",
-                  "Problemas de autoestima",
-                  "Síntomas de ansiedad/angustia",
-                  "Comportamiento errático*",
-                  "Problemas de integración",
-                  "Necesidades educativas especiales",
-                  "Falta de concentración",
-                  "Proceso de duelo",
-                  "Estado de salud**",
-                  "Atención de crisis",
-                  "Solicitó atención directamente en BE",
-                  "Otro, especifique:",
-                ].map((item, index) => (
+                <tr>
+                  <td style={styles.cell1}>
+                    <div style={styles.tableTitle}>
+                      <strong>INDICADORES</strong>
+                    </div>
+                  </td>
+                  <td style={styles.cell1}>
+                    <div style={styles.tableTitle}>
+                      <strong>RESULTADO OBTENIDO</strong>
+                    </div>
+                  </td>
+                </tr>
+                {data.map((item, index) => (
                   <tr key={index}>
                     <td style={styles.cell}>
-                      * <strong>{item}</strong>
+                      <strong>{item}</strong>
+                      <img
+                        src="/info-icon.png" // Reemplaza con la ruta del ícono
+                        alt="Info"
+                        style={styles.icon}
+                        onClick={() => handleIconClick(item)}
+                      />
                     </td>
                     <td style={styles.cell}>
-                      <input type="checkbox" style={styles.checkbox} />
+                      <input type="text" style={styles.input} />
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <div style={styles.tableContainer}>
-            <div style={styles.tableTitle}>
-              Para ser llenado por el área de Bienestar Estudiantil
-              <br />
-              <br />
-            </div>
-            <div style={styles.followUpContent}>
-              <label style={styles.label}>Firma:</label>
-              <div style={styles.signatureContainer}></div>
-              <div style={styles.row}>
-                <div>
-                  <strong>Seguimiento:</strong>
-                  <br />
-                  <label style={styles.option}>
-                    {" "}
-                    Sí <input type="checkbox" style={styles.checkbox} />
-                  </label>
-                  <label style={styles.option}>
-                    {" "}
-                    No <input type="checkbox" style={styles.checkbox} />
-                  </label>
-                </div>
-              </div>
-              <div style={styles.row}>
-                <div>
-                  <strong>Frecuencia de atención psicológica:</strong>
-                  <br />
-                  <label style={styles.option}>
-                    {" "}
-                    Periódica <input type="checkbox" style={styles.checkbox} />
-                  </label>
-                  <label style={styles.option}>
-                    {" "}
-                    De seguimiento{" "}
-                    <input type="checkbox" style={styles.checkbox} />
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
         <br />
+        <br />
         <label>
-          <strong>
-            <br />
-            *Comportamiento errático: desorientación, conductas inesperadas o
-            poco habituales.
-            <br />
-            **Estado de salud: sobrepeso, diabetes, hipertensión, otras que
-            afecten el rendimiento académico del estudiante.
-          </strong>
+          <strong>Anexo</strong>
+        </label>
+        <br />
+        <br />
+        <label>
+          Evidencias de la acción tutorial:
+          <textarea
+            style={{ ...styles.input1 }}
+            value={evidenciasAccionTutorial} // Vincular el estado con el textarea
+            onChange={handleEvidenciasChange} // Actualizar el estado cuando el usuario escriba
+          />
         </label>
       </main>
 
       <div style={styles.main1}>
-        {/* Botón de impresión */}
         <button style={styles.printButton} onClick={handlePrint}>
           Imprimir
         </button>
@@ -253,7 +279,7 @@ export default function RegistroCanalizacion() {
 const styles = {
   container1: {
     fontFamily: "'Montserrat', sans-serif",
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#ffffff",
     height: "100vh",
     display: "flex",
     flexDirection: "column",
@@ -297,7 +323,7 @@ const styles = {
     color: "#000000",
   },
   main: {
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#FFFFFF",
     padding: "20px",
   },
   main1: {
@@ -323,30 +349,23 @@ const styles = {
     fontSize: "24px",
     fontWeight: "bold",
   },
-  instructions: {
-    fontSize: "14px",
-    marginBottom: "20px",
-    textAlign: "justify",
-  },
-  sectionTitle: {
-    backgroundColor: "#FF8C00",
-    color: "#FFFFFF",
-    fontWeight: "bold",
-    padding: "10px",
-    borderRadius: "5px",
-    marginTop: "15px",
-    marginBottom: "10px",
-    textAlign: "center",
-  },
   contactContainer: {
     display: "grid",
-    gridTemplateColumns: "repeat(4, 1fr)",
+    gridTemplateColumns: "repeat(3, 1fr)",
     gap: "10px",
     marginBottom: "20px",
   },
   input: {
     fontFamily: "'Montserrat', sans-serif",
     width: "100%",
+    padding: "8px",
+    borderRadius: "5px",
+    border: "1px solid #ccc",
+  },
+  input1: {
+    fontFamily: "'Montserrat', sans-serif",
+    width: "100%",
+    height: "150px",
     padding: "8px",
     borderRadius: "5px",
     border: "1px solid #ccc",
@@ -378,6 +397,13 @@ const styles = {
     padding: "8px",
     textAlign: "left",
     fontSize: "14px",
+  },
+  cell1: {
+    border: "1px solid #ccc",
+    padding: "8px",
+    textAlign: "left",
+    fontSize: "14px",
+    backgroundColor: "#FF8C00",
   },
   otherContainer: {
     flex: 1,
@@ -443,5 +469,13 @@ const styles = {
     border: "none",
     fontSize: "16px",
     fontWeight: "bold",
+  },
+  // ... otros estilos
+  icon: {
+    marginLeft: "8px",
+    cursor: "pointer",
+    height: "25px",
+    width: "25px",
+    float: "right", // Esto alineará el ícono a la derecha
   },
 };

@@ -96,7 +96,7 @@ export default function DashboardTutor() {
           </button>
           <button
             style={styles.iconBox}
-            onClick={() => handleRedirect("/registro_estudiante")}
+            onClick={() => handleRedirect("/cierre_del_Pat")}
           >
             <img
               src="/R_RegistroEstudiante.png"
