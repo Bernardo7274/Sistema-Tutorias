@@ -1,74 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { useRouter } from "next/router";
+import Navbar from "../components/Navbar_administador";
+import NavbarHamburguesa from "../components/Navbar_hamburguesa";
 
 export default function Usuarios() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const router = useRouter();
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
-  const handleRedirect = (path) => {
-    router.push(path);
-  };
-
   return (
     <div style={container}>
-      <header style={header}>
-        <img
-          src="/logo.png"
-          alt="Universidad Politécnica de Quintana Roo"
-          style={logo}
-        />
-        <nav style={nav}>
-          <button style={navButton} onClick={() => handleRedirect("/inicio")}>
-            <img src="/icon_inicio.png" alt="Inicio" style={navIcon} />
-            <span style={navText}>Inicio</span>
-          </button>
-          <button style={navButton} onClick={() => handleRedirect("/inicio")}>
-            <img src="/icon_inicio.png" alt="Inicio" style={navIcon} />
-            <span style={navText}>Inicio</span>
-          </button>
-        </nav>
-      </header>
-
-      <nav style={{ ...navStyle, width: menuOpen ? "250px" : "100px" }}>
-        <ul style={navListStyle}>
-          <div style={navItemStyle} onClick={toggleMenu}>
-            <img src="/path-to-menu-icon.png" alt="Menu" style={iconStyle} />
-          </div>
-          <li
-            style={{ ...navItemStyle }}
-            onClick={() => handleRedirect("/usuarios")}
-          >
-            <img
-              src="/path-to-user-icon.png"
-              alt="Usuarios"
-              style={iconStyle}
-            />
-            {menuOpen && <span>Usuarios</span>}
-          </li>
-          <li style={navItemStyle} onClick={() => handleRedirect("/dashboard")}>
-            <img
-              src="/path-to-reports-icon.png"
-              alt="Informes"
-              style={iconStyle}
-            />
-            {menuOpen && <span>Informes</span>}
-          </li>
-          <li style={navItemStyle} onClick={() => handleRedirect("/dashboard")}>
-            <img
-              src="/path-to-summary-icon.png"
-              alt="Resumen General"
-              style={iconStyle}
-            />
-            {menuOpen && <span>Resumen General</span>}
-          </li>
-        </ul>
-      </nav>
-
+      <Navbar />
+      <NavbarHamburguesa />
       <main style={main}>
         <UserTable />
       </main>
@@ -113,20 +52,22 @@ function UserTable() {
         const correo = document.getElementById("add-correo").value;
         const contraseña = document.getElementById("add-contraseña").value;
         const rol_id = document.getElementById("add-rol").value;
-  
+
         // Validación de correo: debe terminar en "@upqroo.edu.mx"
         const correoRegex = /^[^\s@]+@upqroo\.edu\.mx$/;
         if (!correoRegex.test(correo)) {
-          Swal.showValidationMessage("Por favor, ingresa un correo del dominio '@upqroo.edu.mx'.");
+          Swal.showValidationMessage(
+            "Por favor, ingresa un correo del dominio '@upqroo.edu.mx'."
+          );
           return false;
         }
-  
+
         return { nombre, correo, contraseña, rol_id };
       },
     }).then(async (result) => {
       if (result.isConfirmed) {
         const { nombre, correo, contraseña, rol_id } = result.value;
-  
+
         await fetch("/api/usuarios", {
           method: "POST",
           headers: {
@@ -134,28 +75,38 @@ function UserTable() {
           },
           body: JSON.stringify({ nombre, correo, contraseña, rol_id }),
         });
-  
+
         fetchUsuarios(); // Refrescar la lista de usuarios
         Swal.fire("Guardado", "El nuevo usuario ha sido agregado.", "success");
       }
     });
   };
-  
+
   const handleEditUser = (usuario) => {
     Swal.fire({
       title: `Editar Usuario: ${usuario.Nombre}`,
       html: `
-        <input id="edit-nombre" class="swal2-input" style="width: 400px;" placeholder="Nombre completo" value="${usuario.Nombre}">
-        <input id="edit-correo" class="swal2-input" style="width: 400px;" placeholder="Correo" value="${usuario.Correo}">
+        <input id="edit-nombre" class="swal2-input" style="width: 400px;" placeholder="Nombre completo" value="${
+          usuario.Nombre
+        }">
+        <input id="edit-correo" class="swal2-input" style="width: 400px;" placeholder="Correo" value="${
+          usuario.Correo
+        }">
         <div style="position: relative;">
           <input id="edit-contraseña" type="password" class="swal2-input" style="width: 400px;" placeholder="Contraseña">
           <i id="help-icon" class="fa fa-question-circle" style="position: absolute; right: 10px; top: 15px; cursor: pointer;"></i>
         </div>
         <br />
         <select id="edit-rol" class="swal2-input" style="width: 150px;">
-          <option value="1" ${usuario.ID_Rol === 1 ? "selected" : ""}>Administrador</option>
-          <option value="2" ${usuario.ID_Rol === 2 ? "selected" : ""}>Tutor</option>
-          <option value="3" ${usuario.ID_Rol === 3 ? "selected" : ""}>Estudiante</option>
+          <option value="1" ${
+            usuario.ID_Rol === 1 ? "selected" : ""
+          }>Administrador</option>
+          <option value="2" ${
+            usuario.ID_Rol === 2 ? "selected" : ""
+          }>Tutor</option>
+          <option value="3" ${
+            usuario.ID_Rol === 3 ? "selected" : ""
+          }>Estudiante</option>
         </select>
       `,
       showCancelButton: true,
@@ -176,14 +127,16 @@ function UserTable() {
         const correo = document.getElementById("edit-correo").value;
         const contraseña = document.getElementById("edit-contraseña").value;
         const rol_id = document.getElementById("edit-rol").value;
-  
+
         // Validación de correo: debe terminar en "@upqroo.edu.mx"
         const correoRegex = /^[^\s@]+@upqroo\.edu\.mx$/;
         if (!correoRegex.test(correo)) {
-          Swal.showValidationMessage("Por favor, ingresa un correo del dominio '@upqroo.edu.mx'.");
+          Swal.showValidationMessage(
+            "Por favor, ingresa un correo del dominio '@upqroo.edu.mx'."
+          );
           return false;
         }
-  
+
         return {
           id: usuario.ID,
           nombre,
@@ -195,7 +148,7 @@ function UserTable() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const { id, nombre, correo, contraseña, rol_id } = result.value;
-  
+
         await fetch(`/api/usuarios?id=${id}`, {
           method: "PUT",
           headers: {
@@ -203,12 +156,12 @@ function UserTable() {
           },
           body: JSON.stringify({ nombre, correo, contraseña, rol_id }),
         });
-  
+
         fetchUsuarios(); // Refrescar la lista de usuarios
         Swal.fire("Guardado", "El usuario ha sido actualizado.", "success");
       }
     });
-  };  
+  };
 
   const eliminarUsuario = async (id) => {
     // Modal de confirmación para eliminación
@@ -355,54 +308,6 @@ const deleteButton = {
 
 // Estilos CSS existentes
 
-const header = {
-  width: "100%",
-  backgroundColor: "#FF8C00",
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  padding: "10px 20px",
-};
-
-const logo = {
-  height: "60px",
-};
-
-const navStyle = {
-  position: "fixed",
-  left: 0,
-  top: "80.4px",
-  width: "60px",
-  height: "100%",
-  backgroundColor: "#FF8C00",
-  transition: "width 0.3s ease",
-  paddingTop: "20px",
-  overflow: "hidden",
-};
-
-const navListStyle = {
-  listStyleType: "none",
-  padding: 0,
-  margin: 0,
-};
-
-const navItemStyle = {
-  display: "flex",
-  alignItems: "center",
-  padding: "10px 20px",
-  color: "#000",
-  cursor: "pointer",
-  backgroundColor: "transparent",
-  transition: "background-color 0.2s ease",
-  whiteSpace: "nowrap",
-};
-
-const iconStyle = {
-  width: "50px",
-  height: "50px",
-  marginRight: "10px",
-};
-
 const container = {
   fontFamily: "'Montserrat', sans-serif",
   backgroundColor: "#f0f0f0",
@@ -415,34 +320,4 @@ const container = {
 const main = {
   textAlign: "center",
   paddingTop: "90px",
-};
-
-const nav = {
-  display: "flex",
-  gap: "20px",
-};
-
-const navButton = {
-  backgroundColor: "#ffffff",
-  border: "2px solid #FF8C00",
-  borderRadius: "10px",
-  padding: "10px 20px",
-  cursor: "pointer",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  width: "auto",
-  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-};
-
-const navIcon = {
-  width: "20px",
-  height: "20px",
-  marginRight: "10px",
-};
-
-const navText = {
-  fontSize: "16px",
-  fontWeight: "600",
-  color: "#000000",
 };
