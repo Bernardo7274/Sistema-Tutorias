@@ -41,6 +41,20 @@ export default function DashboardTutor() {
             style={styles.navButton}
             onClick={() => handleRedirect("/cierre")}
           >
+            <img src="/icon_cierre.png" alt="Grupos Tutorados" style={styles.navIcon} />
+            <span style={styles.navText}>Grupos Tutorados</span>
+          </button>
+          <button
+            style={styles.navButton}
+            onClick={() => handleRedirect("/gruposTutorados")}
+          >
+            <img src="/icon_cierre.png" alt="Subir Documentos" style={styles.navIcon} />
+            <span style={styles.navText}>Subir Documentos</span>
+          </button>
+          <button
+            style={styles.navButton}
+            onClick={() => handleRedirect("/cierre")}
+          >
             <img src="/icon_cierre.png" alt="Cierre" style={styles.navIcon} />
             <span style={styles.navText}>Cierre</span>
           </button>

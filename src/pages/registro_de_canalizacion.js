@@ -1,9 +1,42 @@
 import { useRouter } from "next/router";
 import { useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function RegistroCanalizacion() {
   const router = useRouter();
   const mainRef = useRef(); // Referencia para el contenido de main
+  const [nombre, setNombre] = useState("");
+  const [correoElectronico, setcorreoElectronico] = useState("");
+  const [currentDate, setCurrentDate] = useState("");
+  const [displayPeriod, setDisplayPeriod] = useState(""); // Texto mostrado al usuario
+  const [periodValue, setPeriodValue] = useState(""); // Valor para la base de datos
+
+  useEffect(() => {
+    const storedNombre = localStorage.getItem("nombre");
+    const storedcorreoElectronico = localStorage.getItem("correoElectronico");
+
+    if (storedNombre && storedcorreoElectronico) {
+      setNombre(storedNombre);
+      setcorreoElectronico(storedcorreoElectronico);
+    }
+
+    const today = new Date();
+    const formattedDate = today.toISOString().slice(0, 10); // Formato YYYY-MM-DD
+    setCurrentDate(formattedDate);
+
+    const currentMonth = new Date().getMonth() + 1;
+
+    if (currentMonth >= 1 && currentMonth <= 4) {
+      setDisplayPeriod("Enero - Abril");
+      setPeriodValue(1);
+    } else if (currentMonth >= 5 && currentMonth <= 8) {
+      setDisplayPeriod("Mayo - Agosto");
+      setPeriodValue(2);
+    } else if (currentMonth >= 9 && currentMonth <= 12) {
+      setDisplayPeriod("Septiembre - Diciembre");
+      setPeriodValue(3);
+    }
+  }, []);
 
   // Función para redirigir a otras páginas
   const handleRedirect = (path) => {
@@ -72,6 +105,20 @@ export default function RegistroCanalizacion() {
             style={styles.navButton}
             onClick={() => handleRedirect("/cierre")}
           >
+            <img src="/icon_cierre.png" alt="Grupos Tutorados" style={styles.navIcon} />
+            <span style={styles.navText}>Grupos Tutorados</span>
+          </button>
+          <button
+            style={styles.navButton}
+            onClick={() => handleRedirect("/gruposTutorados")}
+          >
+            <img src="/icon_cierre.png" alt="Subir Documentos" style={styles.navIcon} />
+            <span style={styles.navText}>Subir Documentos</span>
+          </button>
+          <button
+            style={styles.navButton}
+            onClick={() => handleRedirect("/cierre")}
+          >
             <img src="/icon_cierre.png" alt="Cierre" style={styles.navIcon} />
             <span style={styles.navText}>Cierre</span>
           </button>
@@ -122,12 +169,17 @@ export default function RegistroCanalizacion() {
             </select>
           </label>
           <label>
-            <strong>Nombre:</strong>
+            <strong>Nombre del/la Estudiante:</strong>
             <input type="text" style={styles.input} />
           </label>
           <label>
             <strong>Fecha:</strong>
-            <input type="date" style={styles.input} />
+            <input
+              type="date"
+              value={currentDate}
+              style={styles.input}
+              readOnly
+            />
           </label>
           <label>
             <strong>Matrícula:</strong>
@@ -135,11 +187,16 @@ export default function RegistroCanalizacion() {
           </label>
           <label>
             <strong>Correo:</strong>
-            <input type="email" style={styles.input} />
+            <input
+              type="text"
+              style={styles.input}
+              value={correoElectronico}
+              readOnly
+            />
           </label>
           <label>
             <strong>Tutor/a:</strong>
-            <input type="text" style={styles.input} />
+            <input type="text" style={styles.input} value={nombre} readOnly />
           </label>
           <label>
             <strong>Celular:</strong>
@@ -147,7 +204,14 @@ export default function RegistroCanalizacion() {
           </label>
           <label>
             <strong>Grupo:</strong>
-            <input type="text" style={styles.input} />
+            <select style={styles.input}>
+              <option value="">Seleccione una opción</option>
+              <option value="29BV">29BV</option>
+              <option value="29AV">29AV</option>
+              <option value="27AM">27AM</option>
+              <option value="27AV">27AV</option>
+              <option value="Otra">Otra</option>
+            </select>
           </label>
         </div>
         <div style={styles.sectionTitle}>Causas de la Canalización</div>

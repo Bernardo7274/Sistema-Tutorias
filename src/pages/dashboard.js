@@ -2,18 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
 export default function Dashboard() {
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [nombre, setNombre] = useState("");
   const [rol, setRol] = useState("");
-  const router = useRouter();
+  const [correoElectronico, setcorreoElectronico] = useState("");
 
   useEffect(() => {
     const storedNombre = localStorage.getItem("nombre");
     const storedRol = localStorage.getItem("rol");
+    const storedcorreoElectronico = localStorage.getItem("correoElectronico");
 
-    if (storedNombre && storedRol) {
+    if (storedNombre && storedRol && storedcorreoElectronico) {
       setNombre(storedNombre);
       setRol(storedRol);
+      setcorreoElectronico(storedcorreoElectronico);
     }
   }, []);
 

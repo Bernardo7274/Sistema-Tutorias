@@ -25,6 +25,7 @@ export default function Home() {
       if (data.success) {
         localStorage.setItem("nombre", data.nombre);
         localStorage.setItem("rol", data.rol);
+        localStorage.setItem("correoElectronico", data.correoElectronico);
 
         if (data.rol == "Administrador") {
           router.push("/dashboard");

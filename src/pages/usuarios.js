@@ -93,13 +93,16 @@ function UserTable() {
     Swal.fire({
       title: "Agregar Nuevo Usuario",
       html: `
-        <input id="add-nombre" class="swal2-input" style="width: 300px;" placeholder="Nombre">
-        <input id="add-correo" class="swal2-input" style="width: 300px;" placeholder="Correo">
-        <input id="add-contraseña" type="password" class="swal2-input" style="width: 300px;" placeholder="Contraseña">
-        <select id="add-rol" class="swal2-input" style="width: 300px;">
-          <option value="1">Estudiante</option>
+        <input id="add-nombre" class="swal2-input" style="width: 400px;" placeholder="Nombre completo">
+        <input id="add-correo" class="swal2-input" style="width: 400px;" placeholder="Correo">
+        <div style="position: relative;">
+          <input id="add-contraseña" type="password" class="swal2-input" style="width: 400px;" placeholder="Contraseña">
+        </div>
+        <br />
+        <select id="add-rol" class="swal2-input" style="width: 150px;">
+          <option value="1">Administrador</option>
           <option value="2">Tutor</option>
-          <option value="3">Administrador</option>
+          <option value="3">Estudiante</option>
         </select>
       `,
       showCancelButton: true,
@@ -110,30 +113,20 @@ function UserTable() {
         const correo = document.getElementById("add-correo").value;
         const contraseña = document.getElementById("add-contraseña").value;
         const rol_id = document.getElementById("add-rol").value;
-
-        // Validación de correo
-        const correoRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+        // Validación de correo: debe terminar en "@upqroo.edu.mx"
+        const correoRegex = /^[^\s@]+@upqroo\.edu\.mx$/;
         if (!correoRegex.test(correo)) {
-          Swal.showValidationMessage("Por favor, ingresa un correo válido.");
+          Swal.showValidationMessage("Por favor, ingresa un correo del dominio '@upqroo.edu.mx'.");
           return false;
         }
-
-        // Validación de contraseña
-        const contraseñaRegex =
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,8}$/;
-        if (!contraseñaRegex.test(contraseña)) {
-          Swal.showValidationMessage(
-            "La contraseña debe tener entre 6 y 8 caracteres, con al menos una mayúscula, una minúscula y un carácter especial."
-          );
-          return false;
-        }
-
+  
         return { nombre, correo, contraseña, rol_id };
       },
     }).then(async (result) => {
       if (result.isConfirmed) {
         const { nombre, correo, contraseña, rol_id } = result.value;
-
+  
         await fetch("/api/usuarios", {
           method: "POST",
           headers: {
@@ -141,37 +134,28 @@ function UserTable() {
           },
           body: JSON.stringify({ nombre, correo, contraseña, rol_id }),
         });
-
+  
         fetchUsuarios(); // Refrescar la lista de usuarios
         Swal.fire("Guardado", "El nuevo usuario ha sido agregado.", "success");
       }
     });
   };
-
+  
   const handleEditUser = (usuario) => {
     Swal.fire({
-      title: `Editar Usuario: ${usuario.nombre}`,
+      title: `Editar Usuario: ${usuario.Nombre}`,
       html: `
-        <input id="edit-nombre" class="swal2-input" style="width: 350px;" placeholder="Nombre" value="${
-          usuario.nombre
-        }">
-        <input id="edit-correo" class="swal2-input" style="width: 350px;" placeholder="Correo" value="${
-          usuario.correo
-        }">
+        <input id="edit-nombre" class="swal2-input" style="width: 400px;" placeholder="Nombre completo" value="${usuario.Nombre}">
+        <input id="edit-correo" class="swal2-input" style="width: 400px;" placeholder="Correo" value="${usuario.Correo}">
         <div style="position: relative;">
-          <input id="edit-contraseña" type="password" class="swal2-input" style="width: 350px;" placeholder="Contraseña">
+          <input id="edit-contraseña" type="password" class="swal2-input" style="width: 400px;" placeholder="Contraseña">
           <i id="help-icon" class="fa fa-question-circle" style="position: absolute; right: 10px; top: 15px; cursor: pointer;"></i>
         </div>
-        <select id="edit-rol" class="swal2-input" style="width: 350px;">
-          <option value="1" ${
-            usuario.rol_id === 1 ? "selected" : ""
-          }>Estudiante</option>
-          <option value="2" ${
-            usuario.rol_id === 2 ? "selected" : ""
-          }>Tutor</option>
-          <option value="3" ${
-            usuario.rol_id === 3 ? "selected" : ""
-          }>Administrador</option>
+        <br />
+        <select id="edit-rol" class="swal2-input" style="width: 150px;">
+          <option value="1" ${usuario.ID_Rol === 1 ? "selected" : ""}>Administrador</option>
+          <option value="2" ${usuario.ID_Rol === 2 ? "selected" : ""}>Tutor</option>
+          <option value="3" ${usuario.ID_Rol === 3 ? "selected" : ""}>Estudiante</option>
         </select>
       `,
       showCancelButton: true,
@@ -192,27 +176,16 @@ function UserTable() {
         const correo = document.getElementById("edit-correo").value;
         const contraseña = document.getElementById("edit-contraseña").value;
         const rol_id = document.getElementById("edit-rol").value;
-
-        // Validación de correo
-        const correoRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+        // Validación de correo: debe terminar en "@upqroo.edu.mx"
+        const correoRegex = /^[^\s@]+@upqroo\.edu\.mx$/;
         if (!correoRegex.test(correo)) {
-          Swal.showValidationMessage("Por favor, ingresa un correo válido.");
+          Swal.showValidationMessage("Por favor, ingresa un correo del dominio '@upqroo.edu.mx'.");
           return false;
         }
-
-        // Validación de contraseña si se proporciona
-        const contraseñaRegex =
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,8}$/;
-        if (contraseña && !contraseñaRegex.test(contraseña)) {
-          Swal.showValidationMessage(
-            "La contraseña debe tener entre 6 y 8 caracteres, con al menos una mayúscula, una minúscula y un carácter especial."
-          );
-          return false;
-        }
-
-        // Solo devolver la contraseña si se proporcionó
+  
         return {
-          id: usuario.id,
+          id: usuario.ID,
           nombre,
           correo,
           contraseña: contraseña || null,
@@ -222,7 +195,7 @@ function UserTable() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const { id, nombre, correo, contraseña, rol_id } = result.value;
-
+  
         await fetch(`/api/usuarios?id=${id}`, {
           method: "PUT",
           headers: {
@@ -230,12 +203,12 @@ function UserTable() {
           },
           body: JSON.stringify({ nombre, correo, contraseña, rol_id }),
         });
-
+  
         fetchUsuarios(); // Refrescar la lista de usuarios
         Swal.fire("Guardado", "El usuario ha sido actualizado.", "success");
       }
     });
-  };
+  };  
 
   const eliminarUsuario = async (id) => {
     // Modal de confirmación para eliminación
@@ -279,16 +252,16 @@ function UserTable() {
         </thead>
         <tbody>
           {usuarios.map((usuario) => (
-            <tr key={usuario.id}>
-              <td style={tableCell}>{usuario.id}</td>
-              <td style={tableCell}>{usuario.nombre}</td>
-              <td style={tableCell}>{usuario.correo}</td>
+            <tr key={usuario.ID}>
+              <td style={tableCell}>{usuario.ID}</td>
+              <td style={tableCell}>{usuario.Nombre}</td>
+              <td style={tableCell}>{usuario.Correo}</td>
               <td style={tableCell}>
-                {usuario.rol_id === 1
-                  ? "Estudiante"
-                  : usuario.rol_id === 2
+                {usuario.ID_Rol === 1
+                  ? "Administrador"
+                  : usuario.ID_Rol === 2
                   ? "Tutor"
-                  : "Administrador"}
+                  : "Estudiante"}
               </td>
               <td style={tableCell}>
                 <button
@@ -299,7 +272,7 @@ function UserTable() {
                 </button>
                 <button
                   style={deleteButton}
-                  onClick={() => eliminarUsuario(usuario.id)}
+                  onClick={() => eliminarUsuario(usuario.ID)}
                 >
                   Eliminar
                 </button>

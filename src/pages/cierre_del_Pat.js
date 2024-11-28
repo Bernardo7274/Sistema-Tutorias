@@ -1,10 +1,72 @@
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
 import Swal from "sweetalert2";
 
 export default function CierreDelPat() {
   const router = useRouter();
   const mainRef = useRef();
+  const [nombre, setNombre] = useState("");
+  const [correoElectronico, setcorreoElectronico] = useState("");
+  const [currentDate, setCurrentDate] = useState("");
+  const [displayPeriod, setDisplayPeriod] = useState("");
+  const [periodValue, setPeriodValue] = useState("");
+  const [programasEducativos, setProgramasEducativos] = useState([]);
+  const [grupos, setGrupos] = useState([]); // Estado para los grupos
+
+  useEffect(() => {
+    const storedNombre = localStorage.getItem("nombre");
+    const storedcorreoElectronico = localStorage.getItem("correoElectronico");
+
+    if (storedNombre && storedcorreoElectronico) {
+      setNombre(storedNombre);
+      setcorreoElectronico(storedcorreoElectronico);
+    }
+
+    const today = new Date();
+    const formattedDate = today.toISOString().slice(0, 10);
+    setCurrentDate(formattedDate);
+
+    const currentMonth = new Date().getMonth() + 1;
+    if (currentMonth >= 1 && currentMonth <= 4) {
+      setDisplayPeriod("Enero - Abril");
+      setPeriodValue(1);
+    } else if (currentMonth >= 5 && currentMonth <= 8) {
+      setDisplayPeriod("Mayo - Agosto");
+      setPeriodValue(2);
+    } else if (currentMonth >= 9 && currentMonth <= 12) {
+      setDisplayPeriod("Septiembre - Diciembre");
+      setPeriodValue(3);
+    }
+
+    // Fetching educational programs from the API
+    const fetchPrograms = async () => {
+      try {
+        const response = await fetch("/api/getPrograms");
+        const data = await response.json();
+        setProgramasEducativos(data);
+      } catch (error) {
+        console.error("Error fetching programs:", error);
+      }
+    };
+
+    fetchPrograms();
+
+    // Fetch groups if tutor's name is available
+    if (storedNombre) {
+      fetchGroups(storedNombre);
+    }
+  }, []);
+
+  // Función para obtener los grupos basados en el nombre del tutor
+  const fetchGroups = async (tutorName) => {
+    try {
+      const response = await fetch(`/api/getGroups?tutorName=${tutorName}`);
+      const data = await response.json();
+      setGrupos(data);
+    } catch (error) {
+      console.error("Error fetching groups:", error);
+    }
+  };
 
   // Estados solo para los textarea
   const [accionesMes1, setAccionesMes1] = useState("");
@@ -119,6 +181,20 @@ export default function CierreDelPat() {
             style={styles.navButton}
             onClick={() => handleRedirect("/cierre")}
           >
+            <img src="/icon_cierre.png" alt="Grupos Tutorados" style={styles.navIcon} />
+            <span style={styles.navText}>Grupos Tutorados</span>
+          </button>
+          <button
+            style={styles.navButton}
+            onClick={() => handleRedirect("/gruposTutorados")}
+          >
+            <img src="/icon_cierre.png" alt="Subir Documentos" style={styles.navIcon} />
+            <span style={styles.navText}>Subir Documentos</span>
+          </button>
+          <button
+            style={styles.navButton}
+            onClick={() => handleRedirect("/subirDocumentos")}
+          >
             <img src="/icon_cierre.png" alt="Cierre" style={styles.navIcon} />
             <span style={styles.navText}>Cierre</span>
           </button>
@@ -139,45 +215,56 @@ export default function CierreDelPat() {
         <div style={styles.contactContainer}>
           <label>
             <strong>Tutor/a:</strong>
-            <input type="text" style={styles.input} />
+            <input
+              type="text"
+              style={styles.input}
+              value={nombre}
+              readOnly
+              onChange={(e) => {
+                setNombre(e.target.value);
+                fetchGroups(e.target.value); // Actualiza los grupos al cambiar el nombre del tutor
+              }}
+            />
           </label>
           <label>
             <strong>Grupo:</strong>
             <select style={styles.input}>
               <option value="">Seleccione una opción</option>
-              <option value="29BV">29BV</option>
-              <option value="29AV">29AV</option>
-              <option value="27AM">27AM</option>
-              <option value="27AV">27AV</option>
-              <option value="Otra">Otra</option>
+              {grupos.map((grupo, index) => (
+                <option key={index} value={grupo.ID}>
+                  {grupo.Grupo}
+                </option>
+              ))}
             </select>
           </label>
           <label>
             <strong>Programa Educativo:</strong>
             <select style={styles.input}>
               <option value="">Seleccione una opción</option>
-              <option value="Ingeniería en Software">
-                Ingeniería en Software
-              </option>
-              <option value="Ingeniería en Mecatrónica">
-                Ingeniería en Mecatrónica
-              </option>
-              <option value="Ingeniería en Tecnologías de la Información">
-                Ingeniería en Tecnologías de la Información
-              </option>
-              <option value="Licenciatura en Administración de Empresas">
-                Licenciatura en Administración de Empresas
-              </option>
-              <option value="Otra">Otra</option>
+              {programasEducativos.map((programa) => (
+                <option key={programa.ID} value={programa.ID}>
+                  {programa.Nombre}
+                </option>
+              ))}
             </select>
           </label>
           <label>
             <strong>Periodo:</strong>
-            <input type="text" style={styles.input} />
+            <input
+              type="text"
+              value={displayPeriod}
+              readOnly
+              style={styles.input}
+            />
           </label>
           <label>
             <strong>Fecha:</strong>
-            <input type="date" style={styles.input} />
+            <input
+              type="date"
+              value={currentDate}
+              style={styles.input}
+              readOnly
+            />
           </label>
         </div>
 
