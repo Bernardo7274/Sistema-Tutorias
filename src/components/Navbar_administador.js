@@ -34,7 +34,7 @@ const Navbar = () => {
   );
 };
 
-// Estilos CSS existentes
+// Estilos CSS modificados
 
 const header = {
   width: "100%",
@@ -43,6 +43,11 @@ const header = {
   justifyContent: "space-between",
   alignItems: "center",
   padding: "10px 20px",
+  position: "fixed",  // Fija el navbar en la parte superior
+  top: 0,  // Asegura que esté en la parte superior de la página
+  left: 0,  // Alinea a la izquierda de la pantalla
+  right: 0,  // Alinea a la derecha de la pantalla
+  zIndex: 1000,  // Asegura que el navbar esté por encima de otros elementos
 };
 
 const logo = {
@@ -58,7 +63,7 @@ const navButton = {
   backgroundColor: "#ffffff",
   border: "2px solid #FF8C00",
   borderRadius: "10px",
-  padding: "10px",  // Se ajusta para que los botones sean más pequeños si solo tienen iconos
+  padding: "10px", 
   cursor: "pointer",
   display: "flex",
   justifyContent: "center",
@@ -68,8 +73,8 @@ const navButton = {
 };
 
 const navIcon = {
-  width: "24px",  // Ajuste el tamaño del icono
-  height: "24px",  // Ajuste el tamaño del icono
+  width: "24px", 
+  height: "24px",  
 };
 
 export default Navbar;

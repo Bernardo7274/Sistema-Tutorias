@@ -17,6 +17,8 @@ export default function Usuarios() {
 
 function UserTable() {
   const [usuarios, setUsuarios] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedRol, setSelectedRol] = useState("");
 
   useEffect(() => {
     fetchUsuarios();
@@ -185,6 +187,14 @@ function UserTable() {
     });
   };
 
+
+  const filteredUsuarios = usuarios.filter((usuario) => {
+    return (
+      (usuario.Nombre.toLowerCase().includes(searchTerm.toLowerCase()) || searchTerm === "") &&
+      (selectedRol ? usuario.ID_Rol === parseInt(selectedRol) : true)
+    );
+  });
+
   return (
     <div style={tableContainer}>
       <div style={tableHeader}>
@@ -193,6 +203,28 @@ function UserTable() {
           Agregar+
         </button>
       </div>
+
+      {/* Filtros */}
+      <div style={filterContainer}>
+        <input
+          type="text"
+          placeholder="Buscar por nombre"
+          style={filterInput}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <select
+          value={selectedRol}
+          onChange={(e) => setSelectedRol(e.target.value)}
+          style={filterSelect}
+        >
+          <option value="">Seleccionar rol</option>
+          <option value="1">Administrador</option>
+          <option value="2">Tutor</option>
+          <option value="3">Estudiante</option>
+        </select>
+      </div>
+
       <table style={tableStyle}>
         <thead>
           <tr>
@@ -204,7 +236,7 @@ function UserTable() {
           </tr>
         </thead>
         <tbody>
-          {usuarios.map((usuario) => (
+          {filteredUsuarios.map((usuario) => (
             <tr key={usuario.ID}>
               <td style={tableCell}>{usuario.ID}</td>
               <td style={tableCell}>{usuario.Nombre}</td>
@@ -213,8 +245,8 @@ function UserTable() {
                 {usuario.ID_Rol === 1
                   ? "Administrador"
                   : usuario.ID_Rol === 2
-                  ? "Tutor"
-                  : "Estudiante"}
+                    ? "Tutor"
+                    : "Estudiante"}
               </td>
               <td style={tableCell}>
                 <button
@@ -237,6 +269,29 @@ function UserTable() {
     </div>
   );
 }
+
+// Estilos CSS para los filtros
+
+const filterContainer = {
+  display: "flex",
+  justifyContent: "space-between",
+  marginBottom: "10px",
+};
+
+const filterInput = {
+  width: "45%",
+  padding: "8px",
+  fontSize: "14px",
+  borderRadius: "5px",
+};
+
+const filterSelect = {
+  width: "45%",
+  padding: "8px",
+  fontSize: "14px",
+  borderRadius: "5px",
+};
+
 
 // Estilos CSS adicionales para la tabla
 
