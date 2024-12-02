@@ -80,7 +80,7 @@ const NavbarHamburguesa = () => {
           style={{
             ...navItemStyle,
             position: "absolute",
-            bottom: "150px", // Mueve el botón un poco más arriba (ajusta este valor según lo necesites)
+            bottom: "50px", // Mueve el botón un poco más arriba (ajusta este valor según lo necesites)
             width: "100%",
             padding: "0", // Elimina el padding para que ocupe todo el ancho
           }}
@@ -149,15 +149,16 @@ const NavbarHamburguesa = () => {
 // Estilos CSS existentes
 
 const navStyle = {
-  position: "fixed",
+  position: "fixed", // Fija el menú en su posición
   left: 0,
-  top: "80.4px",
-  width: "60px",
-  height: "100%",
+  top: "80.4px", // Asegúrate de que no sobrepase el encabezado si hay uno
+  width: "60px", // Ancho mínimo del menú
+  height: "calc(100% - 80.4px)", // Calcula la altura restante de la ventana
   backgroundColor: "#FF8C00",
   transition: "width 0.3s ease",
   paddingTop: "20px",
-  overflow: "hidden",
+  overflow: "hidden", // Evita que el contenido se desborde
+  zIndex: 1000, // Coloca el menú encima de otros elementos
 };
 
 const navListStyle = {

@@ -1,0 +1,94 @@
+/* styles/Usuarios.module.css */
+
+.container {
+  font-family: "Montserrat", sans-serif;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main {
+  text-align: center;
+  padding-top: 90px;
+}
+
+.filterContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.filterInput,
+.filterSelect {
+  width: 45%;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.tableContainer {
+  background-color: #d8b084;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #d8b084;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.addButton {
+  background-color: #ff8c00;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+}
+
+.tableStyle {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableHeaderCell {
+  background-color: #e29742;
+  color: #000;
+  padding: 10px;
+  border: 1px solid #000;
+}
+
+.tableCell {
+  padding: 10px;
+  border: 1px solid #000;
+  text-align: center;
+}
+
+.editButton {
+  background-color: green;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  margin-right: 5px;
+}
+
+.deleteButton {
+  background-color: red;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+}

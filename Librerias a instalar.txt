@@ -1,0 +1,6 @@
+1.- npm install mysql2
+
+2.- npm install sweetalert2
+
+3.- npm install react-icons
+

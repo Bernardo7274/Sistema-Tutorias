@@ -1,34 +1,46 @@
 import { useEffect, useState } from "react";
-import Navbar from "../components/Navbar_administador";
-import NavbarHamburguesa from "../components/Navbar_hamburguesa";
-import styles from "../styles/ResumenGeneral.module.css";
+import Navbar from "@/components/Navbar_tutor";
+import styles from "@/styles/GruposTutorados.module.css";
 import { FaUserGraduate, FaSignInAlt } from "react-icons/fa";
 
 export default function ResumenGeneral() {
   const [courses, setCourses] = useState([]);
+  const [nombre, setNombre] = useState("");
 
   useEffect(() => {
-    // Obtener los cursos desde la API
+    const storedNombre = localStorage.getItem("nombre");
+    if (storedNombre) {
+      setNombre(storedNombre);
+    }
+
+    // Obtener los cursos desde la API con el nombre del tutor
     const fetchCourses = async () => {
-      const response = await fetch("/api/getCourses"); // Llamada al endpoint de la API
-      const data = await response.json();
-      setCourses(data); // Guardamos los cursos en el estado
+      if (!storedNombre) {
+        console.warn("No hay un nombre de tutor almacenado.");
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          `/api/getCourses1?tutorName=${encodeURIComponent(storedNombre)}`
+        ); // Pasar el nombre como query
+        if (!response.ok) {
+          throw new Error("Error al obtener los cursos");
+        }
+        const data = await response.json();
+        setCourses(data);
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     fetchCourses();
   }, []);
 
   return (
-    <div
-      style={{
-        marginTop: "80px",
-        marginLeft: "60px", // Asegura que el contenido principal no quede cubierto
-        transition: "margin-left 0.3s ease",
-      }}
-    >
+    <div>
       <div className={styles.container}>
         <Navbar />
-        <NavbarHamburguesa />
         <div className={styles.cardsContainer}>
           {courses.map((course) => (
             <div key={course.ID} className={styles.card}>
@@ -59,7 +71,7 @@ export default function ResumenGeneral() {
                     {course.NumAlumnos} alumnos
                   </div>
                   <a
-                    href={`/grupo/${course.Grupo}`}
+                    href={`/grupo1/${course.Grupo}`}
                     className={styles.enterButton}
                   >
                     <FaSignInAlt className={styles.icon} /> Entrar

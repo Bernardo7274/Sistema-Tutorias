@@ -1,7 +1,12 @@
-// pages/api/getCourses.js
 import mysql from "mysql2/promise";
 
 export default async function handler(req, res) {
+  const { tutorName } = req.query; // Obtener el nombre del tutor desde la query
+
+  if (!tutorName) {
+    return res.status(400).json({ error: "El nombre del tutor es requerido." });
+  }
+
   const connection = await mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -10,7 +15,6 @@ export default async function handler(req, res) {
   });
 
   try {
-    // Consulta para obtener cursos donde el rol es "Tutor" junto con la información de cuatrimestres, programas y periodos
     const query = `
         SELECT 
             cursos.ID,
@@ -28,9 +32,9 @@ export default async function handler(req, res) {
         JOIN cuatrimestres ON cursos.Cuatrimestre = cuatrimestres.ID
         JOIN periodos ON cursos.Periodo = periodos.ID
         JOIN programaseducativos ON cursos.Programa = programaseducativos.ID
-        WHERE cursos.Rol = 'Tutor';
+        WHERE REPLACE(REPLACE(cursos.Nombre, ' ', ''), '\r\n', '') = REPLACE(?, ' ', '');
     `;
-    const [rows] = await connection.query(query);
+    const [rows] = await connection.query(query, [tutorName]); // Pasa el nombre como parámetro
 
     res.status(200).json(rows);
   } catch (error) {

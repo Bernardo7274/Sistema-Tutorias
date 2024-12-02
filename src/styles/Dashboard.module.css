@@ -1,0 +1,19 @@
+.container {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .main {
+    text-align: center;
+    padding-top: 90px;
+  }
+  
+  .welcomeText {
+    font-size: 28px;
+    font-weight: 700;
+    color: #000000;
+  }
+  

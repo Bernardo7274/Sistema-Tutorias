@@ -2,7 +2,6 @@
 .container {
   font-family: "Montserrat", sans-serif;
   background-color: #f9f9f9;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,7 +28,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 900px;
   border-bottom: 2px solid #ccc;
 }
 
@@ -56,7 +54,6 @@
 .activeBar {
   width: 100px;
   height: 4px;
-  background-color: #ff6600;
   margin-top: -2px;
   transition: margin-left 0.3s;
 }
@@ -77,7 +74,6 @@
 /* Estilo de la tabla */
 .table {
   width: 100%;
-  max-width: 900px;
   margin-top: 30px;
   border-collapse: collapse;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -86,8 +82,8 @@
   overflow: hidden;
 }
 
-/* Estilos para celdas de la tabla */
-.table th, .table td {
+.table th,
+.table td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #ddd;
@@ -112,3 +108,138 @@
 .content {
   margin-top: 30px;
 }
+
+/* Estilo general del contenedor */
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+/* Oculta el input original */
+.checkboxContainer input[type="radio"] {
+  display: none;
+}
+
+/* Caja del checkbox personalizado */
+.checkboxBox {
+  width: 40px; /* Ajusta el ancho */
+  height: 40px; /* Ajusta la altura */
+  border: 3px solid black; /* Aumenta el grosor del borde */
+  border-radius: 6px; /* Bordes más redondeados */
+  margin-right: 12px; /* Más espacio con el texto */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* Animación al marcar el checkbox */
+.checkboxBox::after {
+  content: "";
+  display: block;
+  width: 20px; /* Aumenta el tamaño del ícono interno */
+  height: 20px; /* Aumenta el tamaño del ícono interno */
+  transform: scale(0);
+  transition: transform 0.3s ease;
+}
+
+/* Estilos para checkboxes seleccionados */
+.checkboxContainer input[type="radio"]:checked + .checkboxBox::after {
+  transform: scale(1);
+}
+
+/* Estilo para el estado "Aceptar" */
+.checkboxBox.accept {
+  border-color: green;
+}
+
+.checkboxBox.accept::after {
+  background-color: green;
+  content: "✔";
+  color: white;
+  font-size: 18px; /* Ajusta el tamaño del ícono */
+}
+
+/* Estilo para el estado "Corregir" */
+.checkboxBox.correct {
+  border-color: orange;
+}
+
+.checkboxBox.correct::after {
+  background-color: orange;
+  content: "!";
+  color: white;
+  font-size: 18px; /* Ajusta el tamaño del ícono */
+}
+
+/* Estilo para el estado "Rechazado" */
+.checkboxBox.reject {
+  border-color: red;
+}
+
+.checkboxBox.reject::after {
+  background-color: red;
+  content: "✖";
+  color: white;
+  font-size: 18px; /* Ajusta el tamaño del ícono */
+}
+
+/* Botón de Aceptar */
+.acceptButton {
+  background-color: #28a745; /* Verde */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.acceptButton:hover {
+  background-color: #218838; /* Verde más oscuro */
+  transform: scale(1.05);
+}
+
+.acceptButton:active {
+  transform: scale(0.95);
+}
+
+/* Botón de Rechazar */
+.rejectButton {
+  background-color: #dc3545; /* Rojo */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.rejectButton:hover {
+  background-color: #c82333; /* Rojo más oscuro */
+  transform: scale(1.05);
+}
+
+.rejectButton:active {
+  transform: scale(0.95);
+}
+
+/* Contenedor de botones para alineación */
+.optionsContainer {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.filterDropdown {
+  margin: 10px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+

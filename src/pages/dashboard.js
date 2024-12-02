@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar_administador";
 import NavbarHamburguesa from "../components/Navbar_hamburguesa";
+import styles from "../styles/Dashboard.module.css"; // Importar estilos modulares
 
 export default function Dashboard() {
   const [nombre, setNombre] = useState("");
@@ -20,71 +21,22 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div style={container}>
-      <Navbar />
-      <NavbarHamburguesa />
-      <main style={main}>
-        <h1 style={welcomeText}>
-          Bienvenido {nombre} con rol {rol}
-        </h1>
-      </main>
+    <div
+      style={{
+        marginTop: "80px",
+        marginLeft: "60px", // Asegura que el contenido principal no quede cubierto
+        transition: "margin-left 0.3s ease",
+      }}
+    >
+      <div className={styles.container}>
+        <Navbar />
+        <NavbarHamburguesa />
+        <main className={styles.main}>
+          <h1 className={styles.welcomeText}>
+            Bienvenido {nombre} con rol {rol}
+          </h1>
+        </main>
+      </div>
     </div>
   );
 }
-
-// Estilos CSS existentes
-
-const navStyle = {
-  position: "fixed",
-  left: 0,
-  top: "80.4px",
-  width: "60px",
-  height: "100%",
-  backgroundColor: "#FF8C00",
-  transition: "width 0.3s ease",
-  paddingTop: "20px",
-  overflow: "hidden",
-};
-
-const navListStyle = {
-  listStyleType: "none",
-  padding: 0,
-  margin: 0,
-};
-
-const navItemStyle = {
-  display: "flex",
-  alignItems: "center",
-  padding: "10px 20px",
-  color: "#000",
-  cursor: "pointer",
-  backgroundColor: "transparent",
-  transition: "background-color 0.2s ease",
-  whiteSpace: "nowrap",
-};
-
-const iconStyle = {
-  width: "50px",
-  height: "50px",
-  marginRight: "10px",
-};
-
-const container = {
-  fontFamily: "'Montserrat', sans-serif",
-  backgroundColor: "#f0f0f0",
-  height: "100vh",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-};
-
-const main = {
-  textAlign: "center",
-  paddingTop: "90px",
-};
-
-const welcomeText = {
-  fontSize: "28px",
-  fontWeight: "700",
-  color: "#000000",
-};

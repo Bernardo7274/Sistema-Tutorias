@@ -1,81 +1,310 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar_administador";
 import NavbarHamburguesa from "../components/Navbar_hamburguesa";
-import styles from '../styles/Informes.module.css'; // Importa el archivo CSS modular
+import styles from "../styles/Informes.module.css"; // Importa el archivo CSS modular
+import Swal from "sweetalert2";
 
 export default function Informes() {
-  const [activeTab, setActiveTab] = useState('registro-canalizacion');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [activeTab, setActiveTab] = useState("Registro-de-Canalización");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterStatus, setFilterStatus] = useState("");
+  const [apiData, setApiData] = useState([]); // Datos de la API
+  const [apiData1, setApiData1] = useState([]); // Datos de la API
+  const [apiData2, setApiData2] = useState([]); // Datos de la API
+  const [apiData3, setApiData3] = useState([]); // Datos de la API
+  const [apiData4, setApiData4] = useState([]); // Datos de la API
 
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
+  const handleStatusChange = (event) => setFilterStatus(event.target.value);
+
+  const handleTabClick = (tab) => setActiveTab(tab);
+
+  const handleSearchChange = (event) => setSearchQuery(event.target.value);
+
+  const handleAccept = async (id) => {
+    try {
+      // Realiza la llamada a tu API para actualizar el registro
+      const response = await fetch("/api/getInformesEdit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }), // Enviar el ID en el cuerpo de la solicitud
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al actualizar el registro");
+      }
+
+      const data = await response.json();
+      console.log(`Registro ${id} aceptado`, data);
+
+      // Mostrar mensaje de éxito con SweetAlert2
+      Swal.fire({
+        icon: "success",
+        title: "¡Éxito!",
+        text: `El registro con ID ${id} ha sido aceptado.`,
+        confirmButtonText: "Aceptar",
+      }).then(() => {
+        // Recargar la página después de cerrar la alerta
+        window.location.reload();
+      });
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+
+      // Mostrar mensaje de error con SweetAlert2
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Hubo un problema al actualizar el registro. Intenta de nuevo.",
+        confirmButtonText: "Cerrar",
+      });
+    }
   };
 
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
+  const handleReject = async (id) => {
+    try {
+      // Realiza la llamada a tu API para actualizar el registro
+      const response = await fetch("/api/getInformesEdit1", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }), // Enviar el ID en el cuerpo de la solicitud
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al actualizar el registro");
+      }
+
+      const data = await response.json();
+      console.log(`Registro ${id} Rechazado`, data);
+
+      // Mostrar mensaje de éxito con SweetAlert2
+      Swal.fire({
+        icon: "success",
+        title: "¡Éxito!",
+        text: `El registro con ID ${id} ha sido Rechazado.`,
+        confirmButtonText: "Aceptar",
+      }).then(() => {
+        // Recargar la página después de cerrar la alerta
+        window.location.reload();
+      });
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+
+      // Mostrar mensaje de error con SweetAlert2
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Hubo un problema al actualizar el registro. Intenta de nuevo.",
+        confirmButtonText: "Cerrar",
+      });
+    }
   };
+
+  // Carga de datos desde la API
+  useEffect(() => {
+    const fetchInformes = async () => {
+      try {
+        const response = await fetch("/api/getInformes");
+        const data = await response.json();
+        const transformedData = data.map((item) => ({
+          col0: item.ID,
+          col1: item.NombreU,
+          col2: item.Correo,
+          col3: item.Grupo,
+          col4: item.Directorio,
+          col5: item.ID_valid, // Estado predeterminado
+        }));
+        setApiData(transformedData);
+      } catch (error) {
+        console.error("Error al cargar los informes:", error);
+      }
+    };
+
+    fetchInformes();
+  }, []);
+
+  // Carga de datos desde la API
+  useEffect(() => {
+    const fetchInformes1 = async () => {
+      try {
+        const response = await fetch("/api/getInformes1");
+        const data = await response.json();
+        const transformedData = data.map((item) => ({
+          col0: item.ID,
+          col1: item.NombreU,
+          col2: item.Correo,
+          col3: item.Grupo,
+          col4: item.Directorio,
+          col5: item.ID_valid, // Estado predeterminado
+        }));
+        setApiData1(transformedData);
+      } catch (error) {
+        console.error("Error al cargar los informes:", error);
+      }
+    };
+
+    fetchInformes1();
+  }, []);
+
+  // Carga de datos desde la API
+  useEffect(() => {
+    const fetchInformes2 = async () => {
+      try {
+        const response = await fetch("/api/getInformes2");
+        const data = await response.json();
+        const transformedData = data.map((item) => ({
+          col0: item.ID,
+          col1: item.NombreU,
+          col2: item.Correo,
+          col3: item.Grupo,
+          col4: item.Directorio,
+          col5: item.ID_valid, // Estado predeterminado
+        }));
+        setApiData2(transformedData);
+      } catch (error) {
+        console.error("Error al cargar los informes:", error);
+      }
+    };
+
+    fetchInformes2();
+  }, []);
+
+  // Carga de datos desde la API
+  useEffect(() => {
+    const fetchInformes3 = async () => {
+      try {
+        const response = await fetch("/api/getInformes3");
+        const data = await response.json();
+        const transformedData = data.map((item) => ({
+          col0: item.ID,
+          col1: item.NombreU,
+          col2: item.Correo,
+          col3: item.Grupo,
+          col4: item.Directorio,
+          col5: item.ID_valid, // Estado predeterminado
+        }));
+        setApiData3(transformedData);
+      } catch (error) {
+        console.error("Error al cargar los informes:", error);
+      }
+    };
+
+    fetchInformes3();
+  }, []);
+
+  // Carga de datos desde la API
+  useEffect(() => {
+    const fetchInformes4 = async () => {
+      try {
+        const response = await fetch("/api/getInformes4");
+        const data = await response.json();
+        const transformedData = data.map((item) => ({
+          col0: item.ID,
+          col1: item.NombreU,
+          col2: item.Correo,
+          col3: item.Grupo,
+          col4: item.Directorio,
+          col5: item.ID_valid, // Estado predeterminado
+        }));
+        setApiData4(transformedData);
+      } catch (error) {
+        console.error("Error al cargar los informes:", error);
+      }
+    };
+
+    fetchInformes4();
+  }, []);
 
   const data = {
-    'registro-canalizacion': [
-      { col1: 'Carlos Alvarado', col2: 'example@upqroo.edu.mx', col3: '27BV', col4: 'E1', col5: 'A1' },
-      { col1: 'Manuel Suarez', col2: 'example@upqroo.edu.mx', col3: '24AM', col4: 'E2', col5: 'A2' },
-      { col1: 'Miguel Flores', col2: 'example@upqroo.edu.mx', col3: '21BM', col4: 'E3', col5: 'A3' },
-    ],
-    'programa-accion': [
-      { col1: 'P1', col2: 'D4', col3: 'C4', col4: 'E4', col5: 'A4' },
-      { col1: 'P2', col2: 'D5', col3: 'C5', col4: 'E5', col5: 'A5' },
-      { col1: 'P3', col2: 'D6', col3: 'C6', col4: 'E6', col5: 'A6' },
-    ],
-    'registro-estudiante': [
-      { col1: 'E1', col2: 'D7', col3: 'C7', col4: 'E7', col5: 'A7' },
-      { col1: 'E2', col2: 'D8', col3: 'C8', col4: 'E8', col5: 'A8' },
-      { col1: 'E3', col2: 'D9', col3: 'C9', col4: 'E9', col5: 'A9' },
-    ],
-    'registro-tutoria': [
-      { col1: 'T1', col2: 'D10', col3: 'C10', col4: 'E10', col5: 'A10' },
-      { col1: 'T2', col2: 'D11', col3: 'C11', col4: 'E11', col5: 'A11' },
-      { col1: 'T3', col2: 'D12', col3: 'C12', col4: 'E12', col5: 'A12' },
-    ]
+    "Registro-de-Canalización": apiData,
+    "Programa-Acción-Tutoria": apiData1,
+    "Registro-de-Estudiante": apiData2,
+    "Registro-General-de-Tutoria-Individual": apiData3,
+    "Informe-Del-Cierre-Del-PAT": apiData4,
   };
 
   const renderContent = () => {
     const selectedData = data[activeTab] || [];
-    const filteredData = selectedData.filter(row =>
-      Object.values(row).some(value => value.toLowerCase().includes(searchQuery.toLowerCase()))
-    );
+    const filteredData = selectedData.filter((row) => {
+      const matchesSearchQuery = Object.values(row).some((value) =>
+        value.toString().toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      const matchesStatus =
+        filterStatus === "" ||
+        (filterStatus === "1" && row.col5 === 1) ||
+        (filterStatus === "2" && row.col5 === 2) ||
+        (filterStatus === "3" && row.col5 === 3);
+
+      return matchesSearchQuery && matchesStatus;
+    });
 
     return (
       <div>
-        <input 
-          type="text" 
-          placeholder="Buscar..." 
-          className={styles.searchBar} 
+        <input
+          type="text"
+          placeholder="Buscar..."
+          className={styles.searchBar}
           value={searchQuery}
           onChange={handleSearchChange}
         />
+        <select
+          className={styles.filterDropdown}
+          value={filterStatus}
+          onChange={handleStatusChange}
+        >
+          <option value="">Todos</option>
+          <option value="1">Aceptado</option>
+          <option value="2">Pendiente</option>
+          <option value="3">Rechazado</option>
+        </select>
         <table className={styles.table}>
           <thead>
             <tr>
-              <th>Columna 1</th>
-              <th>Columna 2</th>
-              <th>Columna 3</th>
-              <th>Columna 4</th>
-              <th>Columna 5</th>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Correo</th>
+              <th>Grupo</th>
+              <th>Ver</th>
+              <th>Estado</th>
+              <th>Opciones</th>
             </tr>
           </thead>
           <tbody>
             {filteredData.map((row, index) => (
               <tr key={index}>
+                <td>{row.col0}</td>
                 <td>{row.col1}</td>
                 <td>{row.col2}</td>
                 <td>{row.col3}</td>
                 <td>{row.col4}</td>
                 <td>
-                  <input 
-                    type="checkbox" 
-                    checked={row.col5 === 'A1' || row.col5 === 'A4'} // Puedes personalizar la lógica de cómo se marca el checkbox
-                    onChange={() => {} /* Aquí puedes manejar el cambio de estado del checkbox */}
-                  />
+                  <label>
+                    {row.col5 === 1
+                      ? "Aceptado"
+                      : row.col5 === 2
+                      ? "Pendiente"
+                      : row.col5 === 3
+                      ? "Rechazado"
+                      : "Desconocido"}
+                  </label>
+                </td>
+                <td>
+                  <div className={styles.optionsContainer}>
+                    <button
+                      className={styles.acceptButton}
+                      onClick={() => handleAccept(row.col0, row.col1)}
+                    >
+                      Aceptar
+                    </button>
+                    <button
+                      className={styles.rejectButton}
+                      onClick={() => handleReject(row.col0, row.col1)}
+                    >
+                      Rechazar
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -86,46 +315,77 @@ export default function Informes() {
   };
 
   return (
-    <div className={styles.container}>
-      <Navbar />
-      <NavbarHamburguesa />
-      <main className={styles.main}>
-        <h1 className={styles.headerText}>Informes</h1>
-        <nav className={styles.navbar}>
-          <a
-            href="#"
-            className={`${styles.navItem} ${activeTab === 'registro-canalizacion' ? styles.activeItem : ''}`}
-            onClick={() => handleTabClick('registro-canalizacion')}
-          >
-            Registro de canalización
-          </a>
-          <a
-            href="#"
-            className={`${styles.navItem} ${activeTab === 'programa-accion' ? styles.activeItem : ''}`}
-            onClick={() => handleTabClick('programa-accion')}
-          >
-            Programa acción tutoría
-          </a>
-          <a
-            href="#"
-            className={`${styles.navItem} ${activeTab === 'registro-estudiante' ? styles.activeItem : ''}`}
-            onClick={() => handleTabClick('registro-estudiante')}
-          >
-            Registro de estudiante
-          </a>
-          <a
-            href="#"
-            className={`${styles.navItem} ${activeTab === 'registro-tutoria' ? styles.activeItem : ''}`}
-            onClick={() => handleTabClick('registro-tutoria')}
-          >
-            Registro general de tutoría individual
-          </a>
-        </nav>
-        <div className={styles.activeBar}></div>
-        <div className={styles.content}>
-          {renderContent()}
-        </div>
-      </main>
+    <div
+      style={{
+        marginTop: "80px",
+        marginLeft: "60px",
+        transition: "margin-left 0.3s ease",
+      }}
+    >
+      <div className={styles.container}>
+        <Navbar />
+        <NavbarHamburguesa />
+        <main className={styles.main}>
+          <h1 className={styles.headerText}>Informes</h1>
+          <nav className={styles.navbar}>
+            <a
+              href="#"
+              className={`${styles.navItem} ${
+                activeTab === "Registro-de-Canalización"
+                  ? styles.activeItem
+                  : ""
+              }`}
+              onClick={() => handleTabClick("Registro-de-Canalización")}
+            >
+              Registro de canalización
+            </a>
+            <a
+              href="#"
+              className={`${styles.navItem} ${
+                activeTab === "Programa-Acción-Tutoria" ? styles.activeItem : ""
+              }`}
+              onClick={() => handleTabClick("Programa-Acción-Tutoria")}
+            >
+              Programa acción tutoría
+            </a>
+            <a
+              href="#"
+              className={`${styles.navItem} ${
+                activeTab === "Registro-de-Estudiante" ? styles.activeItem : ""
+              }`}
+              onClick={() => handleTabClick("Registro-de-Estudiante")}
+            >
+              Registro de estudiante
+            </a>
+            <a
+              href="#"
+              className={`${styles.navItem} ${
+                activeTab === "Registro-General-de-Tutoria-Individual"
+                  ? styles.activeItem
+                  : ""
+              }`}
+              onClick={() =>
+                handleTabClick("Registro-General-de-Tutoria-Individual")
+              }
+            >
+              Registro general de tutoría individual
+            </a>
+            <a
+              href="#"
+              className={`${styles.navItem} ${
+                activeTab === "Informe-Del-Cierre-Del-PAT"
+                  ? styles.activeItem
+                  : ""
+              }`}
+              onClick={() => handleTabClick("Informe-Del-Cierre-Del-PAT")}
+            >
+              Informe del cierre del PAT
+            </a>
+          </nav>
+          <div className={styles.activeBar}></div>
+          <div className={styles.content}>{renderContent()}</div>
+        </main>
+      </div>
     </div>
   );
 }

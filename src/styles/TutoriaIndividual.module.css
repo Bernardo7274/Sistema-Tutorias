@@ -1,0 +1,265 @@
+.container {
+  font-family: "Montserrat", sans-serif;
+  background-color: #ffffff;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  padding: 20px;
+}
+
+.titleContainer {
+  background-color: #ff8c00;
+  padding: 15px;
+  border-radius: 5px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.title {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.main1 {
+  background-color: #ffffff;
+  padding: 20px;
+}
+
+.printButton {
+  background-color: #ff8c00;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.contactContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.input {
+  font-family: "Montserrat", sans-serif;
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.tableContainer {
+  margin: 20px 0;
+}
+
+.toggleButton {
+  background-color: orange;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.collapsibleTable {
+  border: 2px solid orange;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.tableHeader label {
+  display: block;
+  margin: 10px 0;
+}
+
+.checkboxContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.checkboxContainer label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Contenedor principal de la tabla */
+.tableContainer1 {
+  margin: 20px 0;
+  border: 1px solid #f2f2f2;
+  border-radius: 8px;
+  background-color: #fcfcfc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+}
+
+/* Encabezado de la tabla */
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ff9100;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+/* Cuerpo de la tabla */
+.tableBody {
+  padding: 20px;
+  background-color: #fefefe;
+}
+
+/* Título de acciones */
+.actionsTitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Contenedor de checkboxes */
+.checkboxContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  justify-items: center;
+  align-items: center;
+}
+
+.checkboxContainer label {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.checkboxContainer input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+/* Botón para agregar nueva tabla */
+.buttonContainer {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.addButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #007acc;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.addButton:hover {
+  background-color: #005f99;
+}
+
+/* Contenedor principal */
+.tableContainer1 {
+  font-family: "Montserrat", sans-serif;
+  margin: 20px 0;
+  border: 1px solid #f2f2f2;
+  border-radius: 8px;
+  background-color: #fcfcfc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Encabezado con diseño naranja */
+.header {
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ff9100;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 8px 8px 0 0;
+}
+
+/* Input más largo y estilizado */
+.inputWide {
+  height: 50px;
+  font-family: "Montserrat", sans-serif;
+  width: 500px; /* Ajusta el ancho según sea necesario */
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+  margin-left: 10px;
+}
+
+.inputWide:focus {
+  border-color: #007acc;
+  box-shadow: 0 0 5px rgba(0, 122, 204, 0.5);
+  outline: none;
+}
+
+/* Contenedor de acciones */
+.actions {
+  background-color: #f9f9f9;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Título de acciones */
+.actionsTitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Checkboxes más grandes */
+.checkboxContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  justify-items: center;
+  align-items: center;
+}
+
+.checkboxContainer label {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+}
+
+.checkboxContainer input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+/* Mejora de accesibilidad para el hover */
+.checkboxContainer input[type="checkbox"]:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+

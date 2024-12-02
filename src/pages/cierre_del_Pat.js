@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
+import NavbarTutor from "@/components/Navbar_tutor"; // Ajusta la ruta según tu estructura
 
 export default function CierreDelPat() {
   const router = useRouter();
@@ -82,10 +83,6 @@ export default function CierreDelPat() {
     setEvidenciasAccionTutorial(event.target.value);
   };
 
-  const handleRedirect = (path) => {
-    router.push(path);
-  };
-
   const data = [
     "Acciones realizadas en la tutoria grupal",
     "Estudiantes con entrevista inicial (Sólo 1ercuatrimestre)",
@@ -163,51 +160,7 @@ export default function CierreDelPat() {
 
   return (
     <div style={styles.container1}>
-      <header style={styles.header}>
-        <img
-          src="/logo.png"
-          alt="Universidad Politécnica de Quintana Roo"
-          style={styles.logo}
-        />
-        <nav style={styles.nav}>
-          <button
-            style={styles.navButton}
-            onClick={() => handleRedirect("/dashboardTutor")}
-          >
-            <img src="/icon_inicio.png" alt="Inicio" style={styles.navIcon} />
-            <span style={styles.navText}>Inicio</span>
-          </button>
-          <button
-            style={styles.navButton}
-            onClick={() => handleRedirect("/cierre")}
-          >
-            <img src="/icon_cierre.png" alt="Grupos Tutorados" style={styles.navIcon} />
-            <span style={styles.navText}>Grupos Tutorados</span>
-          </button>
-          <button
-            style={styles.navButton}
-            onClick={() => handleRedirect("/gruposTutorados")}
-          >
-            <img src="/icon_cierre.png" alt="Subir Documentos" style={styles.navIcon} />
-            <span style={styles.navText}>Subir Documentos</span>
-          </button>
-          <button
-            style={styles.navButton}
-            onClick={() => handleRedirect("/subirDocumentos")}
-          >
-            <img src="/icon_cierre.png" alt="Cierre" style={styles.navIcon} />
-            <span style={styles.navText}>Cierre</span>
-          </button>
-          <button
-            style={styles.navButton}
-            onClick={() => handleRedirect("/perfil")}
-          >
-            <img src="/icon_perfil.png" alt="Perfil" style={styles.navIcon} />
-            <span style={styles.navText}>Perfil</span>
-          </button>
-        </nav>
-      </header>
-
+      <NavbarTutor /> {/* Agregamos el navbar */}
       <main ref={mainRef} style={styles.main}>
         <div style={styles.titleContainer}>
           <h1 style={styles.title}>INFORME DEL CIERRE DEL PAT</h1>
@@ -353,7 +306,6 @@ export default function CierreDelPat() {
           />
         </label>
       </main>
-
       <div style={styles.main1}>
         <button style={styles.printButton} onClick={handlePrint}>
           Imprimir
@@ -366,55 +318,17 @@ export default function CierreDelPat() {
 const styles = {
   container1: {
     fontFamily: "'Montserrat', sans-serif",
-    backgroundColor: "#ffffff",
+    backgroundColor: "#f9f9f9",
     height: "100vh",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
-  },
-  header: {
-    width: "100%",
-    backgroundColor: "#FF8C00",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "10px 20px",
-  },
-  logo: {
-    height: "60px",
-  },
-  nav: {
-    display: "flex",
-    gap: "20px",
-  },
-  navButton: {
-    backgroundColor: "#ffffff",
-    border: "2px solid #FF8C00",
-    borderRadius: "10px",
-    padding: "10px 20px",
-    cursor: "pointer",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "auto",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-  },
-  navIcon: {
-    width: "20px",
-    height: "20px",
-    marginRight: "10px",
-  },
-  navText: {
-    fontSize: "16px",
-    fontWeight: "600",
-    color: "#000000",
   },
   main: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#f9f9f9",
     padding: "20px",
   },
   main1: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#f9f9f9",
     padding: "20px",
   },
   footer: {

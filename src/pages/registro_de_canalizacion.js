@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useRef } from "react";
 import React, { useState, useEffect } from "react";
+import NavbarTutor from "@/components/Navbar_tutor"; // Ajusta la ruta según tu estructura
 
 export default function RegistroCanalizacion() {
   const router = useRouter();
@@ -10,6 +11,8 @@ export default function RegistroCanalizacion() {
   const [currentDate, setCurrentDate] = useState("");
   const [displayPeriod, setDisplayPeriod] = useState(""); // Texto mostrado al usuario
   const [periodValue, setPeriodValue] = useState(""); // Valor para la base de datos
+  const [grupos, setGrupos] = useState([]); // Estado para los grupos
+  const [programasEducativos, setProgramasEducativos] = useState([]);
 
   useEffect(() => {
     const storedNombre = localStorage.getItem("nombre");
@@ -21,11 +24,10 @@ export default function RegistroCanalizacion() {
     }
 
     const today = new Date();
-    const formattedDate = today.toISOString().slice(0, 10); // Formato YYYY-MM-DD
+    const formattedDate = today.toISOString().slice(0, 10);
     setCurrentDate(formattedDate);
 
     const currentMonth = new Date().getMonth() + 1;
-
     if (currentMonth >= 1 && currentMonth <= 4) {
       setDisplayPeriod("Enero - Abril");
       setPeriodValue(1);
@@ -36,16 +38,39 @@ export default function RegistroCanalizacion() {
       setDisplayPeriod("Septiembre - Diciembre");
       setPeriodValue(3);
     }
+
+    // Fetching educational programs from the API
+    const fetchPrograms = async () => {
+      try {
+        const response = await fetch("/api/getPrograms");
+        const data = await response.json();
+        setProgramasEducativos(data);
+      } catch (error) {
+        console.error("Error fetching programs:", error);
+      }
+    };
+
+    fetchPrograms();
+
+    // Fetch groups if tutor's name is available
+    if (storedNombre) {
+      fetchGroups(storedNombre);
+    }
   }, []);
 
-  // Función para redirigir a otras páginas
-  const handleRedirect = (path) => {
-    router.push(path);
+  // Función para obtener los grupos basados en el nombre del tutor
+  const fetchGroups = async (tutorName) => {
+    try {
+      const response = await fetch(`/api/getGroups?tutorName=${tutorName}`);
+      const data = await response.json();
+      setGrupos(data);
+    } catch (error) {
+      console.error("Error fetching groups:", error);
+    }
   };
 
-  // Función para imprimir el contenido de main, incluyendo valores de formulario
   const handlePrint = () => {
-    // Obtener el contenido de los campos de formulario
+    // Obtener los campos de formulario dentro del `main`
     const inputs = mainRef.current.querySelectorAll("input, select");
     inputs.forEach((input) => {
       if (input.type === "checkbox") {
@@ -71,6 +96,7 @@ export default function RegistroCanalizacion() {
       input.style.display = "none"; // Ocultar los elementos de entrada
     });
 
+    // Guardar el contenido original y establecer el contenido para imprimir
     const printContent = mainRef.current.innerHTML;
     const originalContent = document.body.innerHTML;
 
@@ -78,60 +104,16 @@ export default function RegistroCanalizacion() {
     window.print();
     document.body.innerHTML = originalContent;
 
-    // Restaurar los valores en el formulario y recargar
+    // Restaurar los valores en el formulario
     inputs.forEach((input) => {
       input.style.display = ""; // Mostrar los elementos de entrada nuevamente
     });
-    window.location.reload(); // Recarga para restablecer el contenido original
+    window.location.reload(); // Recargar para restablecer el contenido original
   };
 
   return (
     <div style={styles.container1}>
-      <header style={styles.header}>
-        <img
-          src="/logo.png"
-          alt="Universidad Politécnica de Quintana Roo"
-          style={styles.logo}
-        />
-        <nav style={styles.nav}>
-          <button
-            style={styles.navButton}
-            onClick={() => handleRedirect("/dashboardTutor")}
-          >
-            <img src="/icon_inicio.png" alt="Inicio" style={styles.navIcon} />
-            <span style={styles.navText}>Inicio</span>
-          </button>
-          <button
-            style={styles.navButton}
-            onClick={() => handleRedirect("/cierre")}
-          >
-            <img src="/icon_cierre.png" alt="Grupos Tutorados" style={styles.navIcon} />
-            <span style={styles.navText}>Grupos Tutorados</span>
-          </button>
-          <button
-            style={styles.navButton}
-            onClick={() => handleRedirect("/gruposTutorados")}
-          >
-            <img src="/icon_cierre.png" alt="Subir Documentos" style={styles.navIcon} />
-            <span style={styles.navText}>Subir Documentos</span>
-          </button>
-          <button
-            style={styles.navButton}
-            onClick={() => handleRedirect("/cierre")}
-          >
-            <img src="/icon_cierre.png" alt="Cierre" style={styles.navIcon} />
-            <span style={styles.navText}>Cierre</span>
-          </button>
-          <button
-            style={styles.navButton}
-            onClick={() => handleRedirect("/perfil")}
-          >
-            <img src="/icon_perfil.png" alt="Perfil" style={styles.navIcon} />
-            <span style={styles.navText}>Perfil</span>
-          </button>
-        </nav>
-      </header>
-
+      <NavbarTutor /> {/* Agregamos el navbar */}
       <main ref={mainRef} style={styles.main}>
         <div style={styles.titleContainer}>
           <h1 style={styles.title}>REGISTRO DE CANALIZACIÓN</h1>
@@ -153,19 +135,11 @@ export default function RegistroCanalizacion() {
             <strong>Programa Educativo:</strong>
             <select style={styles.input}>
               <option value="">Seleccione una opción</option>
-              <option value="Ingeniería en Software">
-                Ingeniería en Software
-              </option>
-              <option value="Ingeniería en Mecatrónica">
-                Ingeniería en Mecatrónica
-              </option>
-              <option value="Ingeniería en Tecnologías de la Información">
-                Ingeniería en Tecnologías de la Información
-              </option>
-              <option value="Licenciatura en Administración de Empresas">
-                Licenciatura en Administración de Empresas
-              </option>
-              <option value="Otra">Otra</option>
+              {programasEducativos.map((programa) => (
+                <option key={programa.ID} value={programa.Nombre}>
+                  {programa.Nombre}
+                </option>
+              ))}
             </select>
           </label>
           <label>
@@ -196,7 +170,16 @@ export default function RegistroCanalizacion() {
           </label>
           <label>
             <strong>Tutor/a:</strong>
-            <input type="text" style={styles.input} value={nombre} readOnly />
+            <input
+              type="text"
+              style={styles.input}
+              value={nombre}
+              readOnly
+              onChange={(e) => {
+                setNombre(e.target.value);
+                fetchGroups(e.target.value); // Actualiza los grupos al cambiar el nombre del tutor
+              }}
+            />
           </label>
           <label>
             <strong>Celular:</strong>
@@ -206,11 +189,11 @@ export default function RegistroCanalizacion() {
             <strong>Grupo:</strong>
             <select style={styles.input}>
               <option value="">Seleccione una opción</option>
-              <option value="29BV">29BV</option>
-              <option value="29AV">29AV</option>
-              <option value="27AM">27AM</option>
-              <option value="27AV">27AV</option>
-              <option value="Otra">Otra</option>
+              {grupos.map((grupo, index) => (
+                <option key={index} value={grupo.Grupo}>
+                  {grupo.Grupo}
+                </option>
+              ))}
             </select>
           </label>
         </div>
@@ -265,11 +248,11 @@ export default function RegistroCanalizacion() {
                   <br />
                   <label style={styles.option}>
                     {" "}
-                    Sí <input type="checkbox" style={styles.checkbox} />
+                    Sí <input type="checkbox" style={styles.checkbox} disabled/>
                   </label>
                   <label style={styles.option}>
                     {" "}
-                    No <input type="checkbox" style={styles.checkbox} />
+                    No <input type="checkbox" style={styles.checkbox} disabled/>
                   </label>
                 </div>
               </div>
@@ -279,12 +262,12 @@ export default function RegistroCanalizacion() {
                   <br />
                   <label style={styles.option}>
                     {" "}
-                    Periódica <input type="checkbox" style={styles.checkbox} />
+                    Periódica <input type="checkbox" style={styles.checkbox} disabled/>
                   </label>
                   <label style={styles.option}>
                     {" "}
                     De seguimiento{" "}
-                    <input type="checkbox" style={styles.checkbox} />
+                    <input type="checkbox" style={styles.checkbox} disabled/>
                   </label>
                 </div>
               </div>
@@ -303,7 +286,6 @@ export default function RegistroCanalizacion() {
           </strong>
         </label>
       </main>
-
       <div style={styles.main1}>
         {/* Botón de impresión */}
         <button style={styles.printButton} onClick={handlePrint}>
@@ -317,55 +299,17 @@ export default function RegistroCanalizacion() {
 const styles = {
   container1: {
     fontFamily: "'Montserrat', sans-serif",
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#f9f9f9",
     height: "100vh",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
-  },
-  header: {
-    width: "100%",
-    backgroundColor: "#FF8C00",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "10px 20px",
-  },
-  logo: {
-    height: "60px",
-  },
-  nav: {
-    display: "flex",
-    gap: "20px",
-  },
-  navButton: {
-    backgroundColor: "#ffffff",
-    border: "2px solid #FF8C00",
-    borderRadius: "10px",
-    padding: "10px 20px",
-    cursor: "pointer",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "auto",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-  },
-  navIcon: {
-    width: "20px",
-    height: "20px",
-    marginRight: "10px",
-  },
-  navText: {
-    fontSize: "16px",
-    fontWeight: "600",
-    color: "#000000",
   },
   main: {
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#f9f9f9",
     padding: "20px",
   },
   main1: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#f9f9f9",
     padding: "20px",
   },
   footer: {

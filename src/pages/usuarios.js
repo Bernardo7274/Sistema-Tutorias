@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import Navbar from "../components/Navbar_administador";
 import NavbarHamburguesa from "../components/Navbar_hamburguesa";
+import styles from "@/styles/Usuarios.module.css";
 
 export default function Usuarios() {
   return (
-    <div style={container}>
+    <div className={styles.container}>
       <Navbar />
       <NavbarHamburguesa />
-      <main style={main}>
+      <main className={styles.main}>
         <UserTable />
       </main>
     </div>
@@ -187,36 +188,34 @@ function UserTable() {
     });
   };
 
-
   const filteredUsuarios = usuarios.filter((usuario) => {
     return (
-      (usuario.Nombre.toLowerCase().includes(searchTerm.toLowerCase()) || searchTerm === "") &&
+      (usuario.Nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        searchTerm === "") &&
       (selectedRol ? usuario.ID_Rol === parseInt(selectedRol) : true)
     );
   });
 
   return (
-    <div style={tableContainer}>
-      <div style={tableHeader}>
+    <div className={styles.tableContainer}>
+      <div className={styles.tableHeader}>
         <span>Nuevos Usuarios</span>
-        <button style={addButton} onClick={handleAddUser}>
+        <button className={styles.addButton} onClick={handleAddUser}>
           Agregar+
         </button>
       </div>
-
-      {/* Filtros */}
-      <div style={filterContainer}>
+      <div className={styles.filterContainer}>
         <input
           type="text"
           placeholder="Buscar por nombre"
-          style={filterInput}
+          className={styles.filterInput}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <select
           value={selectedRol}
           onChange={(e) => setSelectedRol(e.target.value)}
-          style={filterSelect}
+          className={styles.filterSelect}
         >
           <option value="">Seleccionar rol</option>
           <option value="1">Administrador</option>
@@ -224,39 +223,38 @@ function UserTable() {
           <option value="3">Estudiante</option>
         </select>
       </div>
-
-      <table style={tableStyle}>
+      <table className={styles.tableStyle}>
         <thead>
           <tr>
-            <th style={tableHeaderCell}>Id</th>
-            <th style={tableHeaderCell}>Nombre</th>
-            <th style={tableHeaderCell}>Correo</th>
-            <th style={tableHeaderCell}>Rol</th>
-            <th style={tableHeaderCell}>Opciones</th>
+            <th className={styles.tableHeaderCell}>Id</th>
+            <th className={styles.tableHeaderCell}>Nombre</th>
+            <th className={styles.tableHeaderCell}>Correo</th>
+            <th className={styles.tableHeaderCell}>Rol</th>
+            <th className={styles.tableHeaderCell}>Opciones</th>
           </tr>
         </thead>
         <tbody>
           {filteredUsuarios.map((usuario) => (
             <tr key={usuario.ID}>
-              <td style={tableCell}>{usuario.ID}</td>
-              <td style={tableCell}>{usuario.Nombre}</td>
-              <td style={tableCell}>{usuario.Correo}</td>
-              <td style={tableCell}>
+              <td className={styles.tableCell}>{usuario.ID}</td>
+              <td className={styles.tableCell}>{usuario.Nombre}</td>
+              <td className={styles.tableCell}>{usuario.Correo}</td>
+              <td className={styles.tableCell}>
                 {usuario.ID_Rol === 1
                   ? "Administrador"
                   : usuario.ID_Rol === 2
-                    ? "Tutor"
-                    : "Estudiante"}
+                  ? "Tutor"
+                  : "Estudiante"}
               </td>
-              <td style={tableCell}>
+              <td className={styles.tableCell}>
                 <button
-                  style={editButton}
+                  className={styles.editButton}
                   onClick={() => handleEditUser(usuario)}
                 >
                   Editar
                 </button>
                 <button
-                  style={deleteButton}
+                  className={styles.deleteButton}
                   onClick={() => eliminarUsuario(usuario.ID)}
                 >
                   Eliminar
@@ -269,110 +267,3 @@ function UserTable() {
     </div>
   );
 }
-
-// Estilos CSS para los filtros
-
-const filterContainer = {
-  display: "flex",
-  justifyContent: "space-between",
-  marginBottom: "10px",
-};
-
-const filterInput = {
-  width: "45%",
-  padding: "8px",
-  fontSize: "14px",
-  borderRadius: "5px",
-};
-
-const filterSelect = {
-  width: "45%",
-  padding: "8px",
-  fontSize: "14px",
-  borderRadius: "5px",
-};
-
-
-// Estilos CSS adicionales para la tabla
-
-const tableContainer = {
-  backgroundColor: "#D8B084",
-  padding: "20px",
-  borderRadius: "10px",
-  marginTop: "20px",
-};
-
-const tableHeader = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  backgroundColor: "#D8B084",
-  padding: "10px",
-  fontSize: "20px",
-  fontWeight: "bold",
-  color: "#FFF",
-  borderRadius: "5px",
-  marginBottom: "10px",
-};
-
-const addButton = {
-  backgroundColor: "#FF8C00",
-  color: "#FFF",
-  padding: "5px 10px",
-  borderRadius: "5px",
-  cursor: "pointer",
-  border: "none",
-};
-
-const tableStyle = {
-  width: "100%",
-  borderCollapse: "collapse",
-};
-
-const tableHeaderCell = {
-  backgroundColor: "#E29742",
-  color: "#000",
-  padding: "10px",
-  border: "1px solid #000",
-};
-
-const tableCell = {
-  padding: "10px",
-  border: "1px solid #000",
-  textAlign: "center",
-};
-
-const editButton = {
-  backgroundColor: "green",
-  color: "#FFF",
-  padding: "5px 10px",
-  borderRadius: "5px",
-  cursor: "pointer",
-  border: "none",
-  marginRight: "5px",
-};
-
-const deleteButton = {
-  backgroundColor: "red",
-  color: "#FFF",
-  padding: "5px 10px",
-  borderRadius: "5px",
-  cursor: "pointer",
-  border: "none",
-};
-
-// Estilos CSS existentes
-
-const container = {
-  fontFamily: "'Montserrat', sans-serif",
-  backgroundColor: "#f0f0f0",
-  height: "100vh",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-};
-
-const main = {
-  textAlign: "center",
-  paddingTop: "90px",
-};
