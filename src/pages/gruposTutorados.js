@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar_tutor";
 import styles from "@/styles/GruposTutorados.module.css";
 import { FaUserGraduate, FaSignInAlt } from "react-icons/fa";
 
-export default function ResumenGeneral() {
+export default function GruposTutorados() {
   const [courses, setCourses] = useState([]);
   const [nombre, setNombre] = useState("");
 
@@ -50,9 +50,6 @@ export default function ResumenGeneral() {
                 className={styles.cardImage}
               />
               <div className={styles.cardContent}>
-                <h3 className={styles.cardTitle}>
-                  <strong>Maestro:</strong> {course.Nombre}
-                </h3>
                 <p className={styles.cardText}>
                   <strong>Programa:</strong> {course.Programa}
                 </p>

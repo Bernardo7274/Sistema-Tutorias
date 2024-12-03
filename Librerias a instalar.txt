@@ -4,3 +4,10 @@
 
 3.- npm install react-icons
 
+4.- npm install formidable
+
+4.- npm install multer
+
+4.- npm install busboy
+
+

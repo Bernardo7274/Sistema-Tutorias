@@ -35,7 +35,7 @@ const NavbarTutor = () => {
         </button>
         <button
           style={styles.navButton}
-          onClick={() => handleRedirect("/gruposTutorados")}
+          onClick={() => handleRedirect("/subirDocumentos")}
         >
           <img
             src="/subir_documentos.png"
