@@ -6,8 +6,8 @@
 
 4.- npm install formidable
 
-4.- npm install multer
+5.- npm install multer
 
-4.- npm install busboy
+6.- npm install busboy
 
 

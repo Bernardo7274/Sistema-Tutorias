@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { FaDownload } from "react-icons/fa"; // Importar el ícono de descarga de React Icons
 import Navbar from "../components/Navbar_administador";
 import NavbarHamburguesa from "../components/Navbar_hamburguesa";
 import styles from "../styles/Informes.module.css"; // Importa el archivo CSS modular
@@ -278,7 +279,17 @@ export default function Informes() {
                 <td>{row.col1}</td>
                 <td>{row.col2}</td>
                 <td>{row.col3}</td>
-                <td>{row.col4}</td>
+                <td>
+                    <a
+                      href={`/api/download/${row.col4.replace(
+                        "/Documents/",
+                        ""
+                      )}`}
+                      download
+                    >
+                      <FaDownload size={30} /> {/* Cambia el tamaño aquí */}
+                    </a>
+                  </td>
                 <td>
                   <label>
                     {row.col5 === 1
