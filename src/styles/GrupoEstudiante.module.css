@@ -1,0 +1,241 @@
+/* Contenedor principal */
+.container {
+  font-family: "Montserrat", sans-serif;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Contenedor de las tarjetas */
+.cardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 70px auto;
+}
+
+/* Estilo de cada tarjeta */
+.card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  width: 280px;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Imagen de la tarjeta */
+.cardImage {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+/* Contenido de la tarjeta */
+.cardContent {
+  padding: 15px;
+  text-align: left;
+  width: 100%;
+}
+
+.cardTitle {
+  font-size: 16px;
+  font-weight: normal;
+  color: #333333;
+  margin-bottom: 10px;
+}
+
+.teacherName {
+  font-size: 14px;
+  color: #555555;
+  margin-bottom: 8px;
+}
+
+.cardText {
+  font-size: 13px;
+  color: #333333;
+  margin-bottom: 6px;
+}
+
+/* Footer de la tarjeta */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.studentCount {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #888888;
+}
+
+.icon {
+  font-size: 18px;
+  color: #007bff;
+}
+
+/* Botón de entrar */
+.enterButton {
+  background-color: #08c93f;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  font-size: 12px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.enterButton:hover {
+  background-color: #0056b3;
+}
+
+/* Media Queries para pantallas pequeñas */
+@media (max-width: 768px) {
+  .card {
+    width: 100%; /* Una tarjeta por fila en pantallas móviles */
+  }
+}
+
+/* Estilos para la tabla */
+.coursesTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.coursesTable th,
+.coursesTable td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+  color: #333333;
+}
+
+.coursesTable th {
+  background-color: #007bff;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.coursesTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+.coursesTable td {
+  border-left: 1px solid #ddd;
+}
+
+.deleteButton {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.deleteButton:hover {
+  background-color: darkred;
+  transform: scale(1.05);
+}
+
+.deleteButton:focus {
+  outline: none;
+}
+
+/* Media Queries para dispositivos móviles */
+@media (max-width: 768px) {
+  .coursesTable th,
+  .coursesTable td {
+    padding: 8px;
+  }
+}
+
+.addCourseButtonContainer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.addCourseButton {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.addCourseButton:hover {
+  background-color: #45a049;
+}
+
+.formContainer {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.formLabel {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.formInput,
+.formSelect {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.submitButton {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+}
+
+.submitButton:hover {
+  background-color: #0056b3;
+}

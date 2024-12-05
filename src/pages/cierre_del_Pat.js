@@ -23,8 +23,13 @@ export default function CierreDelPat() {
       setcorreoElectronico(storedcorreoElectronico);
     }
 
+    // Obtener la fecha actual sin adelantar al siguiente día
     const today = new Date();
-    const formattedDate = today.toISOString().slice(0, 10);
+    const day = String(today.getDate()).padStart(2, "0"); // Obtener el día con 2 dígitos
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // Obtener el mes con 2 dígitos
+    const year = today.getFullYear(); // Obtener el año
+
+    const formattedDate = `${year}-${month}-${day}`; // Formato: yyyy-mm-dd
     setCurrentDate(formattedDate);
 
     const currentMonth = new Date().getMonth() + 1;

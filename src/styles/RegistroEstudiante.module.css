@@ -1,0 +1,146 @@
+.container {
+  font-family: "Montserrat", sans-serif;
+  background-color: #ffffff;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  padding: 20px;
+}
+
+.titleContainer {
+  background-color: #ff8c00;
+  padding: 15px;
+  border-radius: 5px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.title {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.contactContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.contactContainer1 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.contactContainer2 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.contactContainer3 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.contactContainer4 {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.contactContainer5 {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.input {
+  font-family: "Montserrat", sans-serif;
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.input1 {
+  font-family: "Montserrat", sans-serif;
+  width: 100%;
+  height: 100px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.instructions {
+  font-size: 14px;
+  margin-bottom: 20px;
+  text-align: justify;
+}
+
+.main1 {
+  background-color: #ffffff;
+  padding: 20px;
+}
+
+.printButton {
+  background-color: #ff8c00;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* En tu archivo CSS */
+@media print {
+  .navbar {
+    display: none !important;
+  }
+
+  .printable-input {
+    border: none;
+    background: none;
+    box-shadow: none;
+    color: black;
+    font-size: inherit;
+    font-family: inherit;
+    appearance: none;
+    display: inline-block;
+    width: auto;
+    padding: 0;
+  }
+
+  .fotoDiv {
+    width: 2.5cm; /* Ancho de la foto infantil */
+    height: 3cm;  /* Alto de la foto infantil */
+    background-color: lightgray; /* Color de fondo para impresión */
+    border: 3px solid #333; /* Borde más delgado para impresión */
+  }
+}
+
+/* Estilo por defecto */
+.fotoDiv {
+  width: 2.5cm; /* Ancho de la foto infantil */
+  height: 3cm;  /* Alto de la foto infantil */
+  overflow: hidden;
+  background-color: rgb(255, 255, 255); /* Color de fondo en la vista normal */
+  border: 5px solid #000000; /* Borde en la vista normal */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

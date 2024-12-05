@@ -14,16 +14,16 @@ const Navbar = () => {
         style={logo}
       />
       <nav style={nav}>
-        <button
+        {/* <button
           style={navButton}
           onClick={() => handleRedirect("/inicio")}
           aria-label="Ir a inicio"
         >
           <img src="/notificacion.png" alt="Inicio" style={navIcon} />
-        </button>
+        </button> */}
         <button
           style={navButton}
-          onClick={() => handleRedirect("/inicio")}
+          onClick={() => handleRedirect("/perfil")}
           aria-label="Ir a inicio"
         >
           <img src="/edit_perfil_admin.png" alt="Inicio" style={navIcon} />

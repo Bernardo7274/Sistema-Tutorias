@@ -98,7 +98,10 @@ export default function AccionTutoria() {
         input.tagName === "INPUT"
       ) {
         input.setAttribute("data-value", input.value);
-        input.insertAdjacentHTML("afterend", `<br/><span>${input.value}</span>`);
+        input.insertAdjacentHTML(
+          "afterend",
+          `<br/><span>${input.value}</span>`
+        );
         input.style.display = "none";
       }
     });
