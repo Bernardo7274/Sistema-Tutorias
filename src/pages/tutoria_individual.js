@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import NavbarTutor from "@/components/Navbar_tutor"; // Ajusta la ruta según tu estructura
 import styles from "@/styles/TutoriaIndividual.module.css"; // Importa el módulo CSS
+import useAuth from "@/hooks/useAuth"; // Importamos el hook
 
 export default function TutoriaIndividual() {
   const mainRef = useRef();
@@ -12,6 +13,9 @@ export default function TutoriaIndividual() {
   const [grupos, setGrupos] = useState([]); // Estado para los grupos
   const [currentDate, setCurrentDate] = useState("");
   const [tables, setTables] = useState([1]); // Estado para manejar las tablas dinámicas
+
+  // Solo permitimos acceso al Tutor
+  useAuth(["Tutor"]);
 
   // Establecer la fecha actual al cargar la página
   useEffect(() => {

@@ -1,11 +1,15 @@
 import { useEffect, useState, useRef } from "react";
 import NavbarEstudiante from "@/components/Navbar_estudiante"; // Ajusta la ruta según tu estructura
+import useAuth from "@/hooks/useAuth"; // Importamos el hook
 import styles from "@/styles/RegistroEstudiante.module.css"; // Importa el módulo CSS
 
 export default function RegistroEstudiante() {
   const mainRef = useRef();
   const [programasEducativos, setProgramasEducativos] = useState([]);
   const [currentDate, setCurrentDate] = useState("");
+
+  // Solo permitimos acceso al Estudiante
+  useAuth(["Estudiante"]);
 
   useEffect(() => {
     // Obtener la fecha actual sin adelantar al siguiente día

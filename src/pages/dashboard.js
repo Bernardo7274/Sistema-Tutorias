@@ -2,11 +2,15 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar_administador";
 import NavbarHamburguesa from "../components/Navbar_hamburguesa";
 import styles from "../styles/Dashboard.module.css"; // Importar estilos modulares
+import useAuth from "@/hooks/useAuth"; // Importamos el hook
 
 export default function Dashboard() {
   const [nombre, setNombre] = useState("");
   const [rol, setRol] = useState("");
   const [correoElectronico, setcorreoElectronico] = useState("");
+
+  // Solo permitimos acceso al Administrador
+  useAuth(["Administrador"]);
 
   useEffect(() => {
     const storedNombre = localStorage.getItem("nombre");

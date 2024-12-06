@@ -3,9 +3,12 @@ import Navbar from "../components/Navbar_administador";
 import NavbarHamburguesa from "../components/Navbar_hamburguesa";
 import styles from "../styles/ResumenGeneral.module.css";
 import { FaUserGraduate, FaSignInAlt } from "react-icons/fa";
+import useAuth from "@/hooks/useAuth"; // Importamos el hook
 
 export default function ResumenGeneral() {
   const [courses, setCourses] = useState([]);
+  // Solo permitimos acceso al Administrador
+  useAuth(["Administrador"]);
 
   useEffect(() => {
     // Obtener los cursos desde la API

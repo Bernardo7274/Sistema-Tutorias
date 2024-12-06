@@ -3,8 +3,12 @@ import Swal from "sweetalert2";
 import Navbar from "../components/Navbar_administador";
 import NavbarHamburguesa from "../components/Navbar_hamburguesa";
 import styles from "@/styles/Usuarios.module.css";
+import useAuth from "@/hooks/useAuth"; // Importamos el hook
 
 export default function Usuarios() {
+  // Solo permitimos acceso al Administrador
+  useAuth(["Administrador"]);
+
   return (
     <div className={styles.container}>
       <Navbar />

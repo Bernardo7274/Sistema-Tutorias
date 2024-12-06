@@ -2,11 +2,15 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import NavbarEstudiante from "@/components/Navbar_estudiante"; // Ajusta la ruta según tu estructura
 import styles from "@/styles/DashboardEstudiante.module.css";
+import useAuth from "@/hooks/useAuth"; // Importamos el hook
 
 export default function DashboardEstudiante() {
   const [nombre, setNombre] = useState("");
   const [rol, setRol] = useState("");
   const router = useRouter();
+
+  // Solo permitimos acceso al Estudiante
+  useAuth(["Estudiante"]);
 
   useEffect(() => {
     const storedNombre = localStorage.getItem("nombre");
@@ -49,14 +53,24 @@ export default function DashboardEstudiante() {
           >
             <img
               src="/grupo.png"
-              alt="Registro de Estudiante"
+              alt="Consultar Grupo"
               className={styles.icon}
             />
             <p className={styles.iconText}>Consultar Grupo</p>
           </button>
+          <button
+            className={styles.iconBox}
+            onClick={() => handleRedirect("/subirDocumentoEstudiante")}
+          >
+            <img
+              src="/suibr_documento.png"
+              alt="Subir documento"
+              className={styles.icon}
+            />
+            <p className={styles.iconText}>Subir documento</p>
+          </button>
         </div>
       </main>
-
       <footer className={styles.footer}></footer>
     </div>
   );

@@ -2,11 +2,15 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import NavbarTutor from "@/components/Navbar_tutor"; // Ajusta la ruta según tu estructura
 import styles from "@/styles/DashboardTutor.module.css"; // Importa el módulo CSS
+import useAuth from "@/hooks/useAuth"; // Importamos el hook
 
 export default function DashboardTutor() {
   const [nombre, setNombre] = useState("");
   const [rol, setRol] = useState("");
   const router = useRouter();
+
+  // Solo permitimos acceso al Tutor
+  useAuth(["Tutor"]);
 
   useEffect(() => {
     const storedNombre = localStorage.getItem("nombre");

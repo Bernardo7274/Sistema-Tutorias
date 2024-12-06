@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaDownload } from "react-icons/fa"; // Importar el ícono de descarga de React Icons
 import Swal from "sweetalert2"; // Importa SweetAlert2
-import Navbar from "@/components/Navbar_tutor";
+import NavbarEstudiante from "@/components/Navbar_estudiante"; // Ajusta la ruta según tu estructura
 import styles from "@/styles/SubirDocumentos.module.css";
 import useAuth from "@/hooks/useAuth"; // Importamos el hook
 
@@ -10,15 +10,11 @@ export default function SubirDocumentos() {
   const [rol, setRol] = useState("");
   const [correoElectronico, setCorreoElectronico] = useState("");
   const [archivosSeleccionados, setArchivosSeleccionados] = useState({
-    "Registro de canalización": null,
-    "Registro de Acción Tutorial": null,
-    "Registro de General Tutoría Individual": null,
-    "Registro de Cierre": null,
     "Registro de Estudiante": null,
   });
 
-  // Solo permitimos acceso al Tutor
-  useAuth(["Tutor"]);
+  // Solo permitimos acceso al Estudiante
+  useAuth(["Estudiante"]);
 
   // Estado para los documentos enviados
   const [documentosEnviados, setDocumentosEnviados] = useState([]);
@@ -198,17 +194,12 @@ export default function SubirDocumentos() {
 
   // Nombres específicos para cada documento
   const nombresEspecificos = {
-    "Registro de canalización": "Registro-de-Canalización",
-    "Registro de Acción Tutorial": "Programa-Acción-Tutoria",
-    "Registro de General Tutoría Individual":
-      "Registro-General-de-Tutoria-Individual",
-    "Registro de Cierre": "Informe-Del-Cierre-Del-PAT",
     "Registro de Estudiante": "Registro-de-Estudiante",
   };
 
   return (
     <div className={styles.container}>
-      <Navbar /> {/* Agregamos el navbar */}
+      <NavbarEstudiante /> {/* Agregamos el navbar */}
       <main className={styles.main}>
         <div className={styles.welcomeBox}>
           <h1 className={styles.welcomeText}>
@@ -227,13 +218,7 @@ export default function SubirDocumentos() {
             </tr>
           </thead>
           <tbody>
-            {[
-              "Registro de canalización",
-              "Registro de Acción Tutorial",
-              "Registro de General Tutoría Individual",
-              "Registro de Cierre",
-              "Registro de Estudiante",
-            ].map((documento) => (
+            {["Registro de Estudiante"].map((documento) => (
               <tr key={documento}>
                 <td>{documento}</td>
                 <td>

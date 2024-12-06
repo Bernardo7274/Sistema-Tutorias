@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import styles from "@/styles/Login.module.css"; // Archivo CSS personalizado
+import Swal from "sweetalert2";
 
 export default function Home() {
   const router = useRouter();
@@ -27,18 +28,32 @@ export default function Home() {
         localStorage.setItem("rol", data.rol);
         localStorage.setItem("correoElectronico", data.correoElectronico);
 
-        if (data.rol == "Administrador") {
+        if (data.rol === "Administrador") {
           router.push("/dashboard");
-        } else if (data.rol == "Estudiante") {
+        } else if (data.rol === "Estudiante") {
           router.push("/dashboardEstudiante");
-        } else if (data.rol == "Tutor") {
+        } else if (data.rol === "Tutor") {
           router.push("/dashboardTutor");
         }
       } else {
         setError("Credenciales incorrectas");
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Credenciales incorrectas",
+          timer: 2000, // Temporizador de 2 segundos
+          showConfirmButton: false,
+        });
       }
     } catch (err) {
       setError("Ocurrió un error. Inténtalo de nuevo.");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Ocurrió un error. Inténtalo de nuevo.",
+        timer: 2000, // Temporizador de 2 segundos
+        showConfirmButton: false,
+      });
     }
   };
 
@@ -70,10 +85,22 @@ export default function Home() {
             <span className={styles.iconLock}></span>
           </div>
           <div className={styles.options}>
-            <label>
-              <input type="checkbox" /> Recuérdame
-            </label>
-            <a href="#">¿Olvidaste tu contraseña?</a>
+            <label></label>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault(); // Evita que el enlace se siga
+                Swal.fire({
+                  icon: "info",
+                  title: "Problemas para acceder a la plataforma",
+                  html: 'En caso de que hayas olvidado la contraseña, por favor, envía un correo electrónico a asesorias;: <a href="mailto:tutorias@upqroo.edu.mx" style="color:blue; text-decoration:none;">asesorias;tutorias@upqroo.edu.mx</a> con tu nombre completo y número de matrícula para recibir asistencia.',
+                  timer: 2000, // Temporizador de 2 segundos
+                  showConfirmButton: false,
+                });
+              }}
+            >
+              ¿Olvidaste tu contraseña?
+            </a>
           </div>
           <button type="submit" className={styles.submitBtn}>
             Iniciar sesión

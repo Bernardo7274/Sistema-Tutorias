@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import NavbarTutor from "@/components/Navbar_tutor"; // Ajusta la ruta según tu estructura
+import useAuth from "@/hooks/useAuth"; // Importamos el hook
 
 export default function CierreDelPat() {
   const router = useRouter();
@@ -13,6 +14,9 @@ export default function CierreDelPat() {
   const [periodValue, setPeriodValue] = useState("");
   const [programasEducativos, setProgramasEducativos] = useState([]);
   const [grupos, setGrupos] = useState([]); // Estado para los grupos
+
+  // Solo permitimos acceso al Tutor
+  useAuth(["Tutor"]);
 
   useEffect(() => {
     const storedNombre = localStorage.getItem("nombre");

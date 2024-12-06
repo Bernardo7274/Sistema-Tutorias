@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import NavbarTutor from "@/components/Navbar_tutor"; // Ajusta la ruta según tu estructura
 import styles from "@/styles/AccionTutoria.module.css"; // Importa el módulo CSS
+import useAuth from "@/hooks/useAuth"; // Importamos el hook
 
 export default function AccionTutoria() {
   const mainRef = useRef();
@@ -18,6 +19,9 @@ export default function AccionTutoria() {
     evidencia: "",
   });
   const [showForm, setShowForm] = useState(false);
+
+  // Solo permitimos acceso al Tutor
+  useAuth(["Tutor"]);
 
   const handleAddRow = () => {
     setTableData([...tableData, newRow]);

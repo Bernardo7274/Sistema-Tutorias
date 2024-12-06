@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useRef } from "react";
 import React, { useState, useEffect } from "react";
 import NavbarTutor from "@/components/Navbar_tutor"; // Ajusta la ruta según tu estructura
+import useAuth from "@/hooks/useAuth"; // Importamos el hook
 
 export default function RegistroCanalizacion() {
   const router = useRouter();
@@ -13,6 +14,9 @@ export default function RegistroCanalizacion() {
   const [periodValue, setPeriodValue] = useState(""); // Valor para la base de datos
   const [grupos, setGrupos] = useState([]); // Estado para los grupos
   const [programasEducativos, setProgramasEducativos] = useState([]);
+
+  // Solo permitimos acceso al Tutor
+  useAuth(["Tutor"]);
 
   useEffect(() => {
     const storedNombre = localStorage.getItem("nombre");

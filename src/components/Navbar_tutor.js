@@ -1,14 +1,31 @@
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const NavbarTutor = () => {
   const router = useRouter();
+  const [navbarColor, setNavbarColor] = useState("#FF8C00");
+
+  useEffect(() => {
+    // Leer el color desde el localStorage al cargar la página
+    const storedColor = localStorage.getItem("navbarColorTutor");
+    if (storedColor) {
+      setNavbarColor(storedColor);
+    }
+  }, []);
 
   const handleRedirect = (path) => {
     router.push(path);
   };
 
+  const handleColorChange = (event) => {
+    const color = event.target.value;
+    setNavbarColor(color);
+    // Guardar el color seleccionado en localStorage
+    localStorage.setItem("navbarColorTutor", color);
+  };
+
   return (
-    <header style={styles.header}>
+    <header style={{ ...styles.header, backgroundColor: navbarColor }}>
       <img
         src="/logo.png"
         alt="Universidad Politécnica de Quintana Roo"
@@ -44,13 +61,25 @@ const NavbarTutor = () => {
           />
           <span style={styles.navText}>Subir Documentos</span>
         </button>
-        <button
-          style={styles.navButton}
-          onClick={() => handleRedirect("/perfil")}
-        >
-          <img src="/icon_perfil.png" alt="Perfil" style={styles.navIcon} />
-          <span style={styles.navText}>Perfil</span>
+        <button style={styles.navButton} onClick={() => handleRedirect("/")}>
+          <img src="/salida.png" alt="Salir" style={styles.navIcon} />
+          <span style={styles.navText}>Salir</span>
         </button>
+        {/* Selector de color */}
+        <label htmlFor="colorPicker" style={styles.colorPickerButton}>
+          <img
+            src="/cambio_color.png"
+            alt="Cambiar color"
+            style={{ ...styles.colorPickerIcon, width: "50px", height: "50px" }}
+          />
+        </label>
+        <input
+          id="colorPicker"
+          type="color"
+          value={navbarColor}
+          onChange={handleColorChange}
+          style={styles.colorPickerInput}
+        />
       </nav>
     </header>
   );
@@ -72,6 +101,7 @@ const styles = {
   nav: {
     display: "flex",
     gap: "20px",
+    alignItems: "center", // Aseguramos que los íconos y botones estén alineados
   },
   navButton: {
     backgroundColor: "#ffffff",
@@ -92,6 +122,20 @@ const styles = {
     fontSize: "16px",
     fontWeight: "600",
     color: "#000000",
+  },
+
+  /* Estilo para el selector de color */
+  colorPickerButton: {
+    backgroundColor: "transparent",
+    border: "none",
+    cursor: "pointer",
+  },
+  colorPickerInput: {
+    display: "none",
+  },
+  colorPickerIcon: {
+    width: "30px" /* Tamaño del icono */,
+    height: "30px",
   },
 };
 

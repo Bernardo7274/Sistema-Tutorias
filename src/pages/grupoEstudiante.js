@@ -3,6 +3,7 @@ import NavbarEstudiante from "@/components/Navbar_estudiante"; // Ajusta la ruta
 import styles from "@/styles/GrupoEstudiante.module.css";
 import { FaUserGraduate, FaSignInAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
+import useAuth from "@/hooks/useAuth"; // Importamos el hook
 
 export default function GruposTutorados() {
   const [courses, setCourses] = useState([]);
@@ -16,6 +17,9 @@ export default function GruposTutorados() {
     select2: "",
     select3: "",
   });
+
+  // Solo permitimos acceso al Estudiante
+  useAuth(["Estudiante"]);
 
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
 
@@ -349,7 +353,7 @@ export default function GruposTutorados() {
                     className={styles.deleteButton}
                     onClick={() => handleDelete(course.ID)}
                   >
-                    Eliminar
+                    Dar de baja un grupo
                   </button>
                 </td>
               </tr>

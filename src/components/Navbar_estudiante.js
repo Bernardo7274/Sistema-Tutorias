@@ -1,15 +1,32 @@
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import styles from "@/styles/DashboardEstudiante.module.css";
 
 const NavbarEstudiante = () => {
   const router = useRouter();
+  const [headerColor, setHeaderColor] = useState("#FF8C00");
+
+  useEffect(() => {
+    // Leer el color desde el localStorage al cargar la página
+    const storedColor = localStorage.getItem("headerColor");
+    if (storedColor) {
+      setHeaderColor(storedColor);
+    }
+  }, []);
 
   const handleRedirect = (path) => {
     router.push(path);
   };
 
+  const handleColorChange = (event) => {
+    const color = event.target.value;
+    setHeaderColor(color);
+    // Guardar el color seleccionado en localStorage
+    localStorage.setItem("headerColor", color);
+  };
+
   return (
-    <header className={styles.header}>
+    <header className={styles.header} style={{ backgroundColor: headerColor }}>
       <img
         src="/logo.png"
         alt="Universidad Politécnica de Quintana Roo"
@@ -25,11 +42,30 @@ const NavbarEstudiante = () => {
         </button>
         <button
           className={styles.navButton}
-          onClick={() => handleRedirect("/perfil")}
+          onClick={() => handleRedirect("/")}
         >
-          <img src="/icon_perfil.png" alt="Perfil" className={styles.navIcon} />
-          <span className={styles.navText}>Perfil</span>
+          <img src="/salida.png" alt="Salir" className={styles.navIcon} />
+          <span className={styles.navText}>Salir</span>
         </button>
+        {/* Selector de color */}
+        <label htmlFor="colorPicker" className={styles.colorPickerButton}>
+          <img
+            src="/cambio_color.png"
+            alt="Cambiar color"
+            className={styles.colorPickerIcon}
+            style={{
+              width: "50px",
+              height: "50px",
+            }} /* Ajusta el tamaño aquí */
+          />
+        </label>
+        <input
+          id="colorPicker"
+          type="color"
+          value={headerColor}
+          onChange={handleColorChange}
+          className={styles.colorPickerInput}
+        />
       </nav>
     </header>
   );

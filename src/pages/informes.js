@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar_administador";
 import NavbarHamburguesa from "../components/Navbar_hamburguesa";
 import styles from "../styles/Informes.module.css"; // Importa el archivo CSS modular
 import Swal from "sweetalert2";
+import useAuth from "@/hooks/useAuth"; // Importamos el hook
 
 export default function Informes() {
   const [activeTab, setActiveTab] = useState("Registro-de-Canalización");
@@ -14,6 +15,9 @@ export default function Informes() {
   const [apiData2, setApiData2] = useState([]); // Datos de la API
   const [apiData3, setApiData3] = useState([]); // Datos de la API
   const [apiData4, setApiData4] = useState([]); // Datos de la API
+
+  // Solo permitimos acceso al Administrador
+  useAuth(["Administrador"]);
 
   const handleStatusChange = (event) => setFilterStatus(event.target.value);
 
@@ -280,16 +284,16 @@ export default function Informes() {
                 <td>{row.col2}</td>
                 <td>{row.col3}</td>
                 <td>
-                    <a
-                      href={`/api/download/${row.col4.replace(
-                        "/Documents/",
-                        ""
-                      )}`}
-                      download
-                    >
-                      <FaDownload size={30} /> {/* Cambia el tamaño aquí */}
-                    </a>
-                  </td>
+                  <a
+                    href={`/api/download/${row.col4.replace(
+                      "/Documents/",
+                      ""
+                    )}`}
+                    download
+                  >
+                    <FaDownload size={30} /> {/* Cambia el tamaño aquí */}
+                  </a>
+                </td>
                 <td>
                   <label>
                     {row.col5 === 1

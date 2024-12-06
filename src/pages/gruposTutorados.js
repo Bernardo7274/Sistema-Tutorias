@@ -2,10 +2,14 @@ import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar_tutor";
 import styles from "@/styles/GruposTutorados.module.css";
 import { FaUserGraduate, FaSignInAlt } from "react-icons/fa";
+import useAuth from "@/hooks/useAuth"; // Importamos el hook
 
 export default function GruposTutorados() {
   const [courses, setCourses] = useState([]);
   const [nombre, setNombre] = useState("");
+
+  // Solo permitimos acceso al Tutor
+  useAuth(["Tutor"]);
 
   useEffect(() => {
     const storedNombre = localStorage.getItem("nombre");

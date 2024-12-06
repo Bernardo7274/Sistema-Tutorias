@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar_tutor";
 import styles from "@/styles/GrupoDetalles1.module.css";
+import useAuth from "@/hooks/useAuth"; // Importamos el hook
 
 export default function GrupoDetalles() {
   const router = useRouter();
@@ -10,6 +11,9 @@ export default function GrupoDetalles() {
   const [filteredDetails, setFilteredDetails] = useState([]);
   const [searchName, setSearchName] = useState("");
   const [filterRole, setFilterRole] = useState(""); // Filtro por rol
+
+  // Solo permitimos acceso al Tutor
+  useAuth(["Tutor"]);
 
   useEffect(() => {
     if (grupo) {
