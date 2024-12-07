@@ -1,48 +1,47 @@
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 
 const Navbar = () => {
   const router = useRouter();
-  const [navbarColor, setNavbarColor] = useState("#FF8C00");
+  const [headerBackgroundColor, setHeaderBackgroundColor] = useState("#FF8C00");
 
   useEffect(() => {
-    // Leer el color desde el localStorage al cargar la página
-    const storedColor = localStorage.getItem("navbarColor");
-    if (storedColor) {
-      setNavbarColor(storedColor);
+    const storedHeaderColor = localStorage.getItem("headerBackgroundColor");
+    if (storedHeaderColor) {
+      setHeaderBackgroundColor(storedHeaderColor);
     }
   }, []);
 
-  const handleColorChange = (event) => {
+  const handleHeaderColorChange = (event) => {
     const color = event.target.value;
-    setNavbarColor(color);
-    // Guardar el color seleccionado en localStorage
-    localStorage.setItem("navbarColor", color);
+    setHeaderBackgroundColor(color);
+    localStorage.setItem("headerBackgroundColor", color);
   };
 
   return (
-    <header style={{ ...header, backgroundColor: navbarColor }}>
+    <header style={{ ...header, backgroundColor: headerBackgroundColor }}>
       <img
         src="/logo.png"
         alt="Universidad Politécnica de Quintana Roo"
         style={logo}
       />
       <nav style={nav}>
-        {/* Botón para mostrar el selector de color */}
-        <label htmlFor="sidebarColorPicker" style={colorIconButton}>
-          <img
-            src="/cambio_color.png"
-            alt="Cambiar color"
-            style={{ ...colorIcon, width: "50px", height: "50px" }} // Aquí ajustas el tamaño
+        <div style={colorPickerContainer}>
+          <label htmlFor="headerColorPicker" style={colorPickerLabelStyle}>
+            <img
+              src="/cambio_color.png"
+              alt="Cambiar color"
+              style={{ ...colorIconStyle, width: "50px", height: "50px" }}
+            />
+          </label>
+          <input
+            id="headerColorPicker"
+            type="color"
+            value={headerBackgroundColor}
+            onChange={handleHeaderColorChange}
+            style={colorInputStyle}
           />
-        </label>
-        <input
-          id="colorPicker"
-          type="color"
-          value={navbarColor}
-          onChange={handleColorChange}
-          style={colorInput}
-        />
+        </div>
       </nav>
     </header>
   );
@@ -69,37 +68,29 @@ const logo = {
 
 const nav = {
   display: "flex",
+  alignItems: "center",
   gap: "20px",
 };
 
-const navButton = {
-  backgroundColor: "#ffffff",
-  border: "2px solid #FF8C00",
-  borderRadius: "10px",
-  padding: "10px",
-  cursor: "pointer",
+// Estilos del selector de colores
+const colorPickerContainer = {
+  display: "flex",
+  alignItems: "center",
 };
 
-const colorIconButton = {
+const colorPickerLabelStyle = {
   backgroundColor: "transparent",
   border: "none",
   cursor: "pointer",
 };
 
-const colorInput = {
-  display: "none",
-  position: "absolute",
-  top: "10px",
-  right: "10px",
-};
-
-const colorIcon = {
-  width: "30px", // Tamaño del icono
+const colorIconStyle = {
+  width: "30px",
   height: "30px",
 };
 
-const navIcon = {
-  width: "20px",
+const colorInputStyle = {
+  display: "none",
 };
 
 export default Navbar;
